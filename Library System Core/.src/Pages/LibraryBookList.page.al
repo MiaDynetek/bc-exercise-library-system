@@ -5,7 +5,7 @@ page 50705 LibraryBookList
     UsageCategory = Lists;
     SourceTable = "Library";
     Caption = 'Library Books';
-    CardPageId = Library;
+    CardPageId = BookSpecifications;
     DelayedInsert = true;
     
     layout
@@ -52,7 +52,11 @@ page 50705 LibraryBookList
                 {
                     ToolTip = 'Specifies the value of the Rented Count field.';
                 }
-                
+                field("Grade"; Rec.Grade)
+                {
+                    ApplicationArea = All;
+                    Visible = false;
+                }
             }
         }
      

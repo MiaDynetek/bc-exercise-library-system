@@ -1,4 +1,4 @@
-page 50701 Library
+page 50701 BookSpecifications
 {
     PageType = Card;
     ApplicationArea = All;
@@ -39,7 +39,7 @@ page 50701 Library
                         end;
                     end;
                 }
-                field("Status"; Rec."Status")
+                field("Status"; EnumValue(Rec."Status"))
                 {
                     ApplicationArea = All;
                     
@@ -124,10 +124,21 @@ page 50701 Library
                     ApplicationArea = All;
                     Visible = false;
                 }
-                
+                field("Grade"; Rec.Grade)
+                {
+                    ApplicationArea = All;
+                    Visible = false;
+                }
+                field("Grading Justification"; Rec."Grading Justification")
+                {
+                    ApplicationArea = All;
+                    Visible = false;
+                    MultiLine = true;
+                }
             }
         }
     }
+   
    
     trigger OnModifyRecord(): Boolean
     begin
@@ -141,4 +152,27 @@ page 50701 Library
         // libraryBooks.Modify();
         // end;
     end;
+    local procedure EnumValue(Number: Integer): Text
+    begin
+        exit(F.GetEnumValueNameFromOrdinalValue(F.GetEnumValueOrdinal(Number)));
+    end;
+
+    procedure GetSelectedEnum(): Integer
+    begin
+        exit(F.GetEnumValueOrdinal(Rec.Status));
+    end;
+
+    procedure SetupPage(TableNo: Integer; FieldNo: Integer)
+    var
+        SelectLbl: Label 'Select ';
+    begin
+        Ref.OPEN(TableNo);
+        F := Ref.Field(FieldNo);
+        Setrange(Status, 1, F.EnumValueCount());
+        CurrPage.Caption(SelectLbl + F.Caption());
+    end;
+
+    var
+        Ref: RecordRef;
+        F: FieldRef;
 }

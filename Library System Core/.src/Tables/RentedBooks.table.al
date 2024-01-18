@@ -36,9 +36,19 @@ table 50705 RentedBooks
         {
             DataClassification = ToBeClassified;
         }
-        field(90;"Status"; Enum Status)
+        field(270;"Status"; Enum Status)
         {
             DataClassification = ToBeClassified;
+        }
+        field(280; "Grade"; Enum Grades)
+        {
+            Caption = '';
+            NotBlank = true;   
+        }
+        field(290; "Grading Justification"; Text[1000])
+        {
+            Caption = '';
+            NotBlank = true;  
         }
     }
     

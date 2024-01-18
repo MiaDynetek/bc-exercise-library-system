@@ -8,4 +8,5 @@ enum 50715 Status
     value(3; "Overdue") { }
     value(4; "Out for repair") { }
     value(5; "Pending Grading") { }
+    value(6; "Archived") { }
 }

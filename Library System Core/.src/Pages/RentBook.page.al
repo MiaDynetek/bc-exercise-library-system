@@ -42,6 +42,17 @@ page 50707 RentBook
                     ToolTip = 'Specifies the value of the Rent ID field.';
                     Visible = false;
                 }
+                field("Grade"; Rec.Grade)
+                {
+                    ApplicationArea = All;
+                    Visible = false;
+                }
+                field("Grading Justification"; Rec."Grading Justification")
+                {
+                    ApplicationArea = All;
+                    Visible = false;
+                    MultiLine = true;
+                }
             }
         }
     }

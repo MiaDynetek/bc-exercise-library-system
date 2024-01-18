@@ -94,6 +94,16 @@ table 50700 Library
             Caption = '';
             NotBlank = true;   
         }
+        field(190; "Grade"; Enum Grades)
+        {
+            Caption = '';
+            NotBlank = true;   
+        }
+        field(200; "Grading Justification"; Text[1000])
+        {
+            Caption = '';
+            NotBlank = true;  
+        }
     }
     keys
     {
@@ -109,7 +119,7 @@ table 50700 Library
     procedure AddBookSequel()
     var
         newRecord: Record Library;
-        newRentedBook: Page Library;
+        newRentedBook: Page BookSpecifications;
     begin
         newRecord.Init();
         newRecord.Author := Rec.Author;
@@ -158,6 +168,16 @@ table 50700 Library
         TwoYearsAgo := Today - 730;
         Rec.SetFilter("Publication Date", '>%1',TwoYearsAgo);
     end;
+
+    // procedure StatusReceivingRepair()
+    // var
+    //     Library: Record Library;
+    // begin
+    //     //  if Rec.Status.Value() = 'Out for repair' then
+    //     // begin
+    //     //             //popupMessage := popupMessage + bookName.Get(i);
+    //     // end;
+    // end;
     
     procedure RentBook() : Record RentedBooks
     var
