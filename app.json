@@ -1,7 +1,7 @@
 {
-  "id": "2bf1e32f-fc3e-4b0a-a288-678811099a7b",
-  "name": "Exercise",
-  "publisher": "Cronus International Ltd",
+  "id": "d9e57a46-8c8d-4fee-88a6-3bc175845365",
+  "name": "bc-library-system",
+  "publisher": "Default Publisher",
   "version": "1.0.0.0",
   "brief": "",
   "description": "",
@@ -10,13 +10,14 @@
   "help": "",
   "url": "",
   "logo": "",
+  "dependencies": [],
   "screenshots": [],
   "platform": "1.0.0.0",
   "application": "23.0.0.0",
   "idRanges": [
     {
-      "from": 50700,
-      "to": 50749
+      "from": 50200,
+      "to": 50300
     }
   ],
   "resourceExposurePolicy": {
@@ -26,6 +27,6 @@
   },
   "runtime": "12.0",
   "features": [
-    "TranslationFile"
+    "NoImplicitWith"
   ]
 }

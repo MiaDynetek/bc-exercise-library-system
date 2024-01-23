@@ -1,0 +1,38 @@
+{
+  "id": "3f83f512-9397-4658-be67-9087ae539c86",
+  "name": "Grading Update",
+  "publisher": "Cronus International Ltd",
+  "version": "1.0.20240122.1444",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    {
+      "id":  "2bf1e32f-fc3e-4b0a-a288-678811099a7b",
+      "name":  "Exercise1",
+      "publisher":  "Cronus International Ltd",
+      "version":  "1.0.20240123.0917"
+  }
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "22.0.0.0",
+  "idRanges": [
+    {
+      "from": 50250,
+      "to": 50299
+    }
+  ],
+  "features": [
+    "NoImplicitWith"
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  }
+}
