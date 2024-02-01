@@ -5,10 +5,12 @@ table 50111 Library
     Extensible = true;
     fields
     {
-        field(10; "Book ID"; Integer)
+        field(10; "Book ID"; Text[1000])
         {
-            AutoIncrement = true;
+            // AutoIncrement = true;
             Caption = '';
+        
+            // TableRelation = "No. Series";
         }
         field(20; "Title"; Text[50])
         {
@@ -27,7 +29,7 @@ table 50111 Library
         }
          field(120; "Series"; Integer)
         {
-            TableRelation = BookSeries."Series ID";
+            TableRelation = BookSeries."Series ID ";
             Caption = '';
             NotBlank = true;   
         }
@@ -66,12 +68,12 @@ table 50111 Library
             Caption = '';
             NotBlank = true;   
         }
-        field(100; "Prequel ID"; Integer)
+        field(100; "Prequel ID"; Text[1000])
         {
             Caption = '';
             NotBlank = true;   
         }
-        field(110; "Sequel ID"; Integer)
+        field(110; "Sequel ID"; Text[1000])
         {
             Caption = '';
             NotBlank = true;   
@@ -140,6 +142,8 @@ table 50111 Library
        if(Rec."Edit Sequel" = true) then
         begin
         libraryBooks.SetFilter("Book ID", '=%1', Rec."Prequel ID");
+        if libraryBooks.IsEmpty() then
+        exit;
         libraryBooks.FindFirst();
         libraryBooks.Sequel := Rec.Title;
         libraryBooks."Sequel ID" := Rec."Book ID";
@@ -157,9 +161,5 @@ table 50111 Library
         TwoYearsAgo := Today - 730;
         Rec.SetFilter("Publication Date", '>%1',TwoYearsAgo);
     end;
-    
-    
-    //
-    
- 
+
 }

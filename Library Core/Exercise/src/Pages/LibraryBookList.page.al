@@ -15,11 +15,14 @@ page 50106 LibraryBookList
         {
             repeater(General)
             {
+                field("Book ID"; Rec."Book ID")
+                {
+                    ToolTip = 'Specifies the value of the Book ID field.';
+                }
                 field(Title; Rec.Title)
                 {
                     ToolTip = 'Specifies the value of the Title field.';
                 }
-                
                 field(Author; Rec.Author)
                 {
                     ToolTip = 'Specifies the value of the Author field.';
@@ -36,10 +39,6 @@ page 50106 LibraryBookList
                 {
                     ToolTip = 'Specifies the value of the Publisher field.';
                 }
-                // field(Rented; Rec.Rented)
-                // {
-                //     ToolTip = 'Specifies the value of the Rented field.';
-                // }
                 field("Series Name"; Rec."Series")
                 {
                     Lookup = true;

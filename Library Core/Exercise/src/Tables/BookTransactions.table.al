@@ -5,7 +5,7 @@ table 50112 BookTransactions
     
     fields
     {
-        field(210;"Rent ID"; Integer)
+        field(210;"Rent ID "; Integer)
         {
             DataClassification = ToBeClassified;
             AutoIncrement = true;
@@ -27,7 +27,7 @@ table 50112 BookTransactions
             DataClassification = ToBeClassified;
             NotBlank = true;   
         }
-        field(250;"Book ID"; Integer)
+        field(250;"Book ID"; Text[1000])
         {
             TableRelation = Library."Book ID";
             DataClassification = ToBeClassified;
@@ -63,11 +63,16 @@ table 50112 BookTransactions
         {
             Caption = '';
         }
+        // field(330; "No. Series"; Code[1000])
+        // {
+        //     Caption = '';
+        //     TableRelation = "No. Series";
+        // }
     }
     
     keys
     {
-        key(PK; "Rent ID")
+        key(PK; "Rent ID ")
         {
             Clustered = true;
         }

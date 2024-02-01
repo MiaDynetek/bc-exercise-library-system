@@ -10,20 +10,12 @@ pageextension 50260 "Rent Book Extention" extends RentBook
                 Editable = false;
                 ToolTip = 'Specifies the value of the status field.';
             }
-            field("Day(s) Rented"; Rec."Day(s) Rented")
+            field("Day(s) Rented"; Rec."Days Rented")
             {
                 ToolTip = 'Specifies the value of the Days Rented field.';
                 trigger OnValidate()
                 begin
-
-                    if Rec."Days Rented" > 5 then begin
-                        Message('Please provide a number between 1-5.');
-                    end;
-
-                    if Rec."Days Rented" <= 5 then begin
-                        Rec.Validate("Return Date", Rec."Date Rented" + Rec."Days Rented");
-                    end;
-
+                   Rec.ValidateDaysRented();
                 end;
             }
             
@@ -32,12 +24,7 @@ pageextension 50260 "Rent Book Extention" extends RentBook
                 ToolTip = 'Specifies the value of the Grade field.';
                 trigger OnValidate()
                 begin
-
-                    if Rec."Display Message" = true then begin
-                        Rec.Validate("Book Status", enum::BookStatus::Available);
-                        Rec.Validate("Display Message", false);
-                    end;
-
+                    Rec.DisplayMessageGradeMandatory(1);
                 end;
             }
             field("Grade Justification"; Rec."Grade Justification")
@@ -46,12 +33,7 @@ pageextension 50260 "Rent Book Extention" extends RentBook
                 MultiLine = true;
                 trigger OnValidate()
                 begin
-
-                    if (Rec."Display Message" = true) and (Rec."Book Grade" <> enum::BookGrade::" ") then begin
-                        Rec.Validate("Book Status", enum::BookStatus::Available);
-                        Rec.Validate("Display Message", false);
-                    end;
-
+                    Rec.DisplayMessageGradeMandatory(2);
                 end;
             }
         }

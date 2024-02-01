@@ -158,6 +158,12 @@ page 50256 AddBookSequel
                     ToolTip = 'Specifies the value of the Display Message field.';
                     Visible = false;
                 }
+                field("Book ID"; Rec."Book ID")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Book ID field.';
+                }
+
 
             }
         }

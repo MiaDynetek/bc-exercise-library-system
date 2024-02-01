@@ -1,6 +1,27 @@
 codeunit 50103 LibarayBookMgmt
 {
     trigger OnRun()
+     var
+        flag: Boolean;
+        bookListLength: Integer;
+        i: Integer;
+        j: Integer;
+        temp: Integer;
+        temp1: Text[50];
+        rentedAmount: List of [Integer];
+        bookName: List of [Text[50]];
+        books: Record Library;
+        popupMessage: Text[500];
+        counter: Integer;
+        addRecordsCount: Integer;
+        last3: Integer;
+        last2: Integer;
+        last1: Integer;
+        tempVal1: Integer;
+        testMessage: Text[1000];
+        book1: Text[1000];
+        book2: Text[1000];
+        book3: Text[1000];
     begin
         if books.FindSet() then
         repeat
@@ -26,7 +47,7 @@ codeunit 50103 LibarayBookMgmt
                 temp := rentedAmount.Get(j + 1);
                 rentedAmount.Set(j + 1, rentedAmount.Get(j));
                 rentedAmount.Set(j, temp);
-                
+                // popupMessage := popupMessage + Format(rentedAmount.Get(j));
                 
                 temp1 := bookName.Get(j + 1);
                 bookName.Set(j + 1, bookName.Get(j));
@@ -38,77 +59,31 @@ codeunit 50103 LibarayBookMgmt
             end;
         
         end;
-        popupMessage := 'Top three most rented books: \';
-        // foreach Value in EnumerableCollection do begin
-            
-        // end;
-        // foreach i in rentedAmount do 
-        // begin
-            //  counter := counter + 1;
-            // if counter >= bookListLength - 3 then
-            // begin
-            //     addRecordsCount := addRecordsCount + 1;
-            //     if addRecordsCount = 1 then
-            //     begin
-                    //popupMessage := popupMessage + bookName.Get(i);
-            //     end;
-            //     if addRecordsCount <> 1  then
-            //     begin
-            //         popupMessage := popupMessage + ' \ ' + bookName.Get(i);
-            //     end;
-            // end;
-        //end;
-        // for i := 1 to bookListLength - 1 do
-        // begin
-        //     counter := counter + 1;
-        //     if counter >= bookListLength - 3 then
-        //     begin
-        //         addRecordsCount := addRecordsCount + 1;
-        //         if addRecordsCount = 1 then
-        //         begin
-        //             popupMessage := popupMessage + bookName.Get(i);
-        //         end;
-        //         if addRecordsCount <> 1  then
-        //         begin
-        //             popupMessage := popupMessage + ' \ ' + bookName.Get(i);
-        //         end;
-        //     end;
-        // end;
-            //popupMessage := popupMessage + bookName.Get(i) + '\' + Format(rentedAmount.Get(i));
-            // counter := counter + 1;
-            // if counter = 1 then
-            // begin
-            //     popupMessage := popupMessage + bookName.Get(i) + '\';
-            // end;
-            // if (counter <= 3) and (counter <> 1)  then
-            // begin
-            //     popupMessage := popupMessage + ' \ ' + bookName.Get(i);
-            // end;
-        // end;
-        last3 := bookListLength - 2;
-        last2 := bookListLength - 1;
-        last1 := bookListLength;
-     
-        popupMessage := 'Top three most rented books: \' + bookName.Get(last3) + ' \ ' + bookName.Get(last2) + ' \ ' + bookName.Get(last1);
+        //popupMessage := 'Top three most rented books: \';
+      
+        if bookListLength <> 0 then
+        begin
+            if bookListLength >= 3 then
+            begin
+                last3 := bookListLength - 2;
+                book3 := Format(bookName.Get(last3));
+            end;
+            if bookListLength >= 2 then
+            begin
+                last2 := bookListLength - 1;
+                book2 := Format(bookName.Get(last2));
+            end;
+            last1 := bookListLength;
+            book1 := Format(bookName.Get(last1));
+            popupMessage := 'Top three most rented books: \' + book1 + ' \ ' + book2 + ' \ ' + book3;
+        end;
+        if bookListLength = 0 then
+        begin
+            popupMessage := 'No books have been rented.';
+        end;
+
         Message(popupMessage);
     end;
     
-    var
-        flag: Boolean;
-        bookListLength: Integer;
-        i: Integer;
-        j: Integer;
-        temp: Integer;
-        temp1: Text[50];
-        rentedAmount: List of [Integer];
-        bookName: List of [Text[50]];
-        books: Record Library;
-        popupMessage: Text[500];
-        counter: Integer;
-        addRecordsCount: Integer;
-        last3: Integer;
-        last2: Integer;
-        last1: Integer;
-        tempVal1: Integer;
-        testMessage: Text[1000];
+   
 }

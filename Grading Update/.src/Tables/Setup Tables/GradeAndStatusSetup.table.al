@@ -1,40 +1,36 @@
-table 50110 BookSeries
+table 50250 "Grade and Status Setup"
 {
     DataClassification = ToBeClassified;
-    Caption = 'Book Series';
     
     fields
     {
-        field(410;"Series ID "; Integer)
-        {
-            AutoIncrement = true;
-            DataClassification = ToBeClassified;
-            // TableRelation = "No. Series";
-        }
-        field(420;"Series Name"; Text[50])
-        {
-            DataClassification = ToBeClassified;
-            NotBlank = true;   
-        }
-        //  field(430; "No. Series"; Code[1000])
+        // field(700;GradeStatusSetupID; )
         // {
-        //     Caption = '';
-        //     TableRelation = "No. Series";
+        //     DataClassification = ToBeClassified;
+        //     AutoIncrement = true;
+        // }
+        field(710;BookGrade; Enum BookGrade)
+        {
+            DataClassification = ToBeClassified;
+            
+        }
+        field(720;BookStatus; Enum BookStatus)
+        {
+            DataClassification = ToBeClassified;
+            
+        }
+        // field(730; SetupTableID; Integer)
+        // {
+        //     DataClassification = ToBeClassified;
         // }
     }
     
     keys
     {
-        key(PK; "Series ID ")
+        key(Key1; BookGrade)
         {
             Clustered = true;
         }
-       
-    }
-    
-    fieldgroups
-    {
-        // Add changes to field groups here
     }
     
     var
@@ -42,7 +38,7 @@ table 50110 BookSeries
     
     trigger OnInsert()
     begin
-        
+        //Message(Format(Rec.GradeStatusSetupID));
     end;
     
     trigger OnModify()
