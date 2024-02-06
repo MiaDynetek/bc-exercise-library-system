@@ -2,7 +2,27 @@
     "folders": [
         {
             "path": ".AL-Go"
+        },
+        {
+            "path": "Grading Update"
+        }, 
+        {
+            "path": "Library Core"
         }
     ],
-    "settings": {}
+    "settings": {
+        "al-test-runner.sendDebugTelemetry": false, 
+        "files.exclude": {
+          "**/.objidconfig": true, 
+          ".alpackages": true, 
+          ".snapshots": true,
+          "**/*.app": true,
+          ".vscode": false
+
+        },
+        "al.enableCodeAnalysis": true,
+        "al.compilationOptions": {
+            
+        }
+    }
 }

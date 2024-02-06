@@ -1,4 +1,4 @@
-page 50108 "Open Library"
+page 90105 "Open Library"
 {
     Caption = 'Open Library';
     PageType = CardPart;

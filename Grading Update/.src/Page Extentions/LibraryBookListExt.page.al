@@ -1,4 +1,4 @@
-pageextension 50251 "Library Book List Extention" extends LibraryBookList
+pageextension 90251 "Library Book List Extention" extends LibraryBookList
 {
     layout
     {
@@ -9,12 +9,14 @@ pageextension 50251 "Library Book List Extention" extends LibraryBookList
             field("Book Status"; Rec."Book Status")
             {
                 ToolTip = 'Specifies the value of the Status field.';
+                ApplicationArea = All;
             }
             field("Book Grade"; Rec."Book Grade")
             {
                 ToolTip = 'Specifies the value of the Grade field.';
+                ApplicationArea = All;
             }
-         
+            
         }
     }
     

@@ -1,92 +1,94 @@
-table 50111 Library
+table 90102 Library
 {
     Caption = 'Library';
     DataClassification = ToBeClassified;
     Extensible = true;
     fields
     {
-        field(10; "Book ID"; Integer)
+        field(10; "Book ID"; Text[1000])
         {
-            AutoIncrement = true;
+            // AutoIncrement = true;
             Caption = '';
+
+            // TableRelation = "No. Series";
         }
         field(20; "Title"; Text[50])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(30; "Author"; Text[50])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(40; "Rented"; Boolean)
         {
             Caption = '';
             ObsoleteState = Removed;
         }
-         field(120; "Series"; Integer)
+        field(120; "Series"; Integer)
         {
-            TableRelation = BookSeries."Series ID";
+            TableRelation = BookSeries."Series ID ";
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(50; "Genre"; Text[50])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(60; "Publisher"; Text[50])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(70; "Book Price"; Text[50])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(80; "Publication Date"; Date)
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(90; "Pages"; Integer)
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(150; "Prequel"; Text[50])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
         field(160; "Sequel"; Text[50])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
-        field(100; "Prequel ID"; Integer)
+        field(100; "Prequel ID"; Text[1000])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
-        field(110; "Sequel ID"; Integer)
+        field(110; "Sequel ID"; Text[1000])
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
-       
+
         field(140; "Rented Count"; Integer)
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
-       
+
         field(170; "Edit Sequel"; Boolean)
         {
             Caption = '';
-            NotBlank = true;   
+            NotBlank = true;
         }
 
         // field(180; "Status"; Enum Statuses)
@@ -98,10 +100,10 @@ table 50111 Library
         // {
         //     DataClassification = ToBeClassified;
         // }
-         field(200; "Grade Justification"; Text[1000])
+        field(200; "Grade Justification"; Text[1000])
         {
             Caption = '';
-            NotBlank = true;  
+            NotBlank = true;
         }
         field(210; "Rent ID"; Integer)
         {
@@ -123,7 +125,7 @@ table 50111 Library
         //    Unique = true; 
         // }
     }
-    
+
 
     procedure OpenLibraryPage()
     var
@@ -137,15 +139,17 @@ table 50111 Library
     var
         libraryBooks: Record Library;
     begin
-       if(Rec."Edit Sequel" = true) then
-        begin
-        libraryBooks.SetFilter("Book ID", '=%1', Rec."Prequel ID");
-        libraryBooks.FindFirst();
-        libraryBooks.Sequel := Rec.Title;
-        libraryBooks."Sequel ID" := Rec."Book ID";
-        libraryBooks.Modify();
+        if (Rec."Edit Sequel" = true) then begin
+            libraryBooks.SetFilter("Book ID", '=%1', Rec."Prequel ID");
+            if libraryBooks.IsEmpty() then
+                exit;
+            libraryBooks.FindFirst();
+            libraryBooks.Sequel := Rec.Title;
+            libraryBooks."Sequel ID" := Rec."Book ID";
+            libraryBooks.Modify();
         end;
     end;
+
     procedure LastTwoYearsFilter()
     var
         Today: Date;
@@ -155,11 +159,7 @@ table 50111 Library
     begin
         Today := WorkDate();
         TwoYearsAgo := Today - 730;
-        Rec.SetFilter("Publication Date", '>%1',TwoYearsAgo);
+        Rec.SetFilter("Publication Date", '>%1', TwoYearsAgo);
     end;
-    
-    
-    //
-    
- 
+
 }

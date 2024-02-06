@@ -1,4 +1,4 @@
-page 50109 RentBook
+page 90106 RentBook
 {
     PageType = Card;
     ApplicationArea = All;
@@ -20,7 +20,7 @@ page 50109 RentBook
                     ToolTip = 'Specifies the value of the Book Name field.';
                     Editable = false;
                 }
-                
+
                 field("Customer Name"; Rec."Customer Name")
                 {
                     ToolTip = 'Specifies the value of the Customer Name field.';
@@ -29,7 +29,7 @@ page 50109 RentBook
                 {
                     ToolTip = 'Specifies the value of the Date Rented field.';
                 }
-                field("Rent ID"; Rec."Rent ID")
+                field("Rent ID"; Rec."Rent ID ")
                 {
                     ToolTip = 'Specifies the value of the Rent ID field.';
                     Visible = false;
@@ -44,24 +44,24 @@ page 50109 RentBook
                     ToolTip = 'Specifies the value of the Date Returned field.';
                     Editable = false;
                 }
-                field("Days Rented"; Rec."Days Rented")
-                {
-                    ToolTip = 'Specifies the value of the Days Rented field.';
-                    trigger OnValidate()
-                    var
-                        myInt: Integer;
-                    begin
-                        if Rec."Days Rented" > 5 then begin
-                            Message('Please provide a number between 1-5.');
-                        end;
-                        if Rec."Days Rented" <= 5 then begin
-                           // Rec."Return Date" := Today();
-                            Rec."Return Date" := Rec."Date Rented" + Rec."Days Rented";
-                        end;
-                    end;
-                }
-                
-                
+                // field("Days Rented"; Rec."Days Rented")
+                // {
+                //     ToolTip = 'Specifies the value of the Days Rented field.';
+                //     trigger OnValidate()
+                //     var
+                //         myInt: Integer;
+                //     begin
+                //         if Rec."Days Rented" > 5 then begin
+                //             Message('Please provide a number between 1-5.'); 5
+                //         end;
+                //         if Rec."Days Rented" <= 5 then begin
+                //            // Rec."Return Date" := Today();
+                //             Rec."Return Date" := Rec."Date Rented" + Rec."Days Rented";
+                //         end;
+                //     end;
+                // }
+
+
                 field("Display Message"; Rec."Display Message")
                 {
                     ToolTip = 'Specifies the value of the Display Message field.';
@@ -71,12 +71,13 @@ page 50109 RentBook
             }
         }
     }
-    
+
     trigger OnClosePage()
     var
         myInt: Integer;
     begin
     end;
+
     trigger OnOpenPage()
     var
         rentedBooks: Record BookTransactions;
@@ -86,7 +87,7 @@ page 50109 RentBook
         // rentedBooks.Ascending();
         // rentedBooks.FindLast();
         if (Rec."Display Message" = true) then begin
-        Message('Please assess the condition of the book and update the grade field accordingly.');   
+            Message('Please assess the condition of the book and update the grade field accordingly.');
         end;
         // if (rentedBooks.Status = enum::Statuses::Rented) then begin
         // Message('Please assess the condition of the book and, if needed, update the grade field accordingly.');   
@@ -97,6 +98,7 @@ page 50109 RentBook
         // books."Rent ID" := Rec."Rent ID";
         // books.Modify();
     end;
+
     var
         myInt: Integer;
         BookTitle: Text[100];

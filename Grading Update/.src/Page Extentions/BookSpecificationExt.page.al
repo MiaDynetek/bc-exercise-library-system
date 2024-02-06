@@ -1,4 +1,4 @@
-pageextension 50250 BookSpecificationExt extends BookSpecifications
+pageextension 90250 BookSpecificationExt extends BookSpecifications
 {
     layout
     {

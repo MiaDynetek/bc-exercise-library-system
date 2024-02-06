@@ -1,34 +1,42 @@
-tableextension 50250 "Library Extension" extends Library
+tableextension 90250 "Library Extension" extends Library
 {
     fields
     {
-        field(230; "Book Status"; Enum BookStatus)
+        field(50050; "Book Status"; Enum BookStatus)
         {
             Caption = '';
             NotBlank = true;   
         }
-        field(240; "Book Grade"; Enum BookGrade)
+        field(50060; "Book Grade"; Enum BookGrade)
         {
             DataClassification = ToBeClassified;
         }
-        field(250; "Display Messages"; Boolean)
+        field(50070; "Display Messages"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
-        field(260; "Book Grade Justification"; Text[1000])
+        field(50080; "Book Grade Justification"; Text[1000])
         {
             Caption = '';
             NotBlank = true;  
         }
+        
     }
     
+
     procedure AddBookSequel()
     var
         NewLibrary: Record Library;
         NewAddBookSequelPage: Page AddBookSequel;
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NextNum: Text[1000];
+        GeneralSetup: Record "General Setup";
     begin
-
+        GeneralSetup.GetRecordOnce();
+        GeneralSetup.TestField("No. Series");
+        NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
         NewLibrary.Init();
+        NewLibrary.Validate("Book ID", GeneralSetup."No. Series" + NextNum);
         NewLibrary.Validate(Author, Rec.Author);
         NewLibrary.Validate(Series, Rec.Series);
         NewLibrary.Validate(Genre, Rec.Genre);
@@ -171,9 +179,16 @@ tableextension 50250 "Library Extension" extends Library
     procedure AddLogCodeunit(CurrentBookStatus : enum BookStatus; LibraryLog: Record Library)
     var
         NewBookTransactionsLog: Record BookTransactions;
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NextNum: Text[1000];
+        GeneralSetup: Record "General Setup";
     begin
         
         NewBookTransactionsLog.Init();
+        GeneralSetup.Get();
+        GeneralSetup.TestField("No. Series");
+        NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
+        //NewBookTransactionsLog.Validate("Rent ID ", GeneralSetup."No. Series" + NextNum);
         NewBookTransactionsLog.Validate("Book Name", Rec.Title);
         NewBookTransactionsLog.Validate("Book ID", Rec."Book ID");
         NewBookTransactionsLog.Validate("Book Status", CurrentBookStatus);
@@ -202,6 +217,8 @@ tableextension 50250 "Library Extension" extends Library
         if (Rec."Book Status" = enum::BookStatus::" ") or (Rec."Book Grade" = enum::BookGrade::" ") then
         begin
             GetCurrentLibraryBook.SetRange("Book ID",Rec."Book ID");
+            if GetCurrentLibraryBook.IsEmpty() then
+            exit;
             GetCurrentLibraryBook.FindFirst();
             BookSpecificationsPage.SetRecord(GetCurrentLibraryBook);
             BookSpecificationsPage.Run();
@@ -215,5 +232,17 @@ tableextension 50250 "Library Extension" extends Library
         NewBookTransactionsLog.Validate("Book Grade", Rec."Book Grade");
         NewBookTransactionsLog.Validate("Grade Justification", Rec."Grade Justification");
         NewBookTransactionsLog.Insert();
+    end;
+    
+    trigger OnInsert()
+    var
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NextNum: Text[1000];
+        GeneralSetup: Record "General Setup";
+    begin
+        GeneralSetup.GetRecordOnce();
+        GeneralSetup.TestField("No. Series");
+        NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
+        Rec."Book ID" := GeneralSetup."No. Series" + NextNum;
     end;
 }
