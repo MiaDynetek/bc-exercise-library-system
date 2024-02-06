@@ -1,4 +1,4 @@
-pageextension 50252 "General Setup Extention" extends "General Setup"
+pageextension 90252 "General Setup Extention" extends "General Setup"
 {
     layout
     {
@@ -13,13 +13,14 @@ pageextension 50252 "General Setup Extention" extends "General Setup"
             }
         }
     }
-    
+
     actions
     {
         // Add changes to page actions here
     }
     trigger OnOpenPage()
     begin
-        report.Run(Report::"Library Books");
+        // report.Run(Report::"Library Books");
+        //report.Run(Report::"Get Sales Orders");
     end;
 }

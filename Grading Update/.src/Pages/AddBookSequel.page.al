@@ -1,4 +1,4 @@
-page 50256 AddBookSequel
+page 90251 AddBookSequel
 {
     PageType = Card;
     ApplicationArea = All;
@@ -77,7 +77,7 @@ page 50256 AddBookSequel
                         if Rec."Book Price" = '' then begin
                             Message('Please enter the book Price.');
                         end;
-                        
+
                     end;
                 }
                 field("Publication Date"; Rec."Publication Date")
@@ -125,7 +125,7 @@ page 50256 AddBookSequel
                             Rec."Book Status" := enum::BookStatus::"Pending Grading";
                             Message('Please assess the condition of the book and update the grade field accordingly.');
                         end;
-                       
+
                     end;
                 }
                 field("Book Grade"; Rec."Book Grade")
@@ -177,7 +177,7 @@ page 50256 AddBookSequel
 
     trigger OnOpenPage()
     begin
-
+        MyProcedure(RouteBufferReturnField::"1");
         if (Rec."Display Message" = true) then begin
             Message('Please assess the condition of the book and update the grade field accordingly.');
         end;
@@ -187,7 +187,16 @@ page 50256 AddBookSequel
     trigger OnClosePage()
     begin
 
-         Rec.ValidateFieldsAddLog();
-         
+        Rec.ValidateFieldsAddLog();
+
     end;
+
+    local procedure MyProcedure(RouteBufferReturnField: Option "1","2")
+    begin
+        if RouteBufferReturnField = RouteBufferReturnField::"1" then
+            Message('Works ');
+    end;
+
+    var
+        RouteBufferReturnField: Option "1","2";
 }

@@ -1,4 +1,4 @@
-enum 50253 BookGrade
+enum 90250 BookGrade
 {
     Extensible = true;
 

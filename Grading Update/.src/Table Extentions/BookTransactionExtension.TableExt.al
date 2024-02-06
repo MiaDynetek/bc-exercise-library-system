@@ -1,28 +1,28 @@
-tableextension 50251 "Book Transaction Extension" extends BookTransactions
+tableextension 90251 "Book Transaction Extension" extends BookTransactions
 {
     fields
     {
-        field(320; "Book Grade Justification"; Text[1000])
+        field(50000; "Book Grade Justification"; Text[1000])
         {
             Caption = '';
             NotBlank = true;
         }
-        field(330; "Book Return Date"; Date)
+        field(50010; "Book Return Date"; Date)
         {
             Caption = '';
             NotBlank = true;
         }
-        field(340; "Book Status"; Enum BookStatus)
+        field(50020; "Book Status"; Enum BookStatus)
         {
             DataClassification = ToBeClassified;
 
         }
-        field(350; "Book Grade"; Enum BookGrade)
+        field(50030; "Book Grade"; Enum BookGrade)
         {
             DataClassification = ToBeClassified;
 
         }
-        field(360; "Display Messages"; Boolean)
+        field(50040; "Display Messages"; Boolean)
         {
             Caption = '';
         }

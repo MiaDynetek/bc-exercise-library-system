@@ -1,16 +1,18 @@
-report 90251 "Library Books RDLC"
+report 90252 "Library Report Excel"
 {
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
-    DefaultRenderingLayout = "Library Books RDLC";
+    DefaultRenderingLayout = "Library Report Excel";
     
     dataset
     {
         dataitem(DataItemName; Library)
         {
-            DataItemTableView = sorting(Author);
             
             column(Title_DataItemName; Title)
+            {
+            }
+            column(BookGrade_DataItemName; "Book Grade")
             {
             }
             column(BookStatus_DataItemName; "Book Status")
@@ -19,10 +21,6 @@ report 90251 "Library Books RDLC"
             column(Author_DataItemName; Author)
             {
             }
-            column(BookGrade_DataItemName; "Book Grade")
-            {
-            }
-
         }
     }
     
@@ -58,13 +56,11 @@ report 90251 "Library Books RDLC"
     
     rendering
     {
-        layout("Library Books RDLC")
+        layout("Library Report Excel")
         {
-            Type = RDLC;
-            LayoutFile = 'LibraryBooksRDLC.rdl';
+            Type = Excel;
+            LayoutFile = 'LibraryReport.xlsx';
         }
     }
-    
-    var
-        myInt: Integer;
+
 }

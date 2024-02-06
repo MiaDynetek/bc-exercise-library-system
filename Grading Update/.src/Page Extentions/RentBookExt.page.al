@@ -1,4 +1,4 @@
-pageextension 50260 "Rent Book Extention" extends RentBook
+pageextension 90253 "Rent Book Extention" extends RentBook
 {
     layout
     {
@@ -13,6 +13,7 @@ pageextension 50260 "Rent Book Extention" extends RentBook
             field("Day(s) Rented"; Rec."Days Rented")
             {
                 ToolTip = 'Specifies the value of the Days Rented field.';
+                ApplicationArea = All;
                 trigger OnValidate()
                 begin
                    Rec.ValidateDaysRented();
@@ -22,6 +23,7 @@ pageextension 50260 "Rent Book Extention" extends RentBook
             field("Book Grade"; Rec."Book Grade")
             {
                 ToolTip = 'Specifies the value of the Grade field.';
+                ApplicationArea = All;
                 trigger OnValidate()
                 begin
                     Rec.DisplayMessageGradeMandatory(1);
@@ -30,6 +32,7 @@ pageextension 50260 "Rent Book Extention" extends RentBook
             field("Grade Justification"; Rec."Grade Justification")
             {
                 ToolTip = 'Specifies the value of the Grade Justification field.';
+                ApplicationArea = All;
                 MultiLine = true;
                 trigger OnValidate()
                 begin

@@ -1,26 +1,28 @@
-tableextension 50250 "Library Extension" extends Library
+tableextension 90250 "Library Extension" extends Library
 {
     fields
     {
-        field(230; "Book Status"; Enum BookStatus)
+        field(50050; "Book Status"; Enum BookStatus)
         {
             Caption = '';
             NotBlank = true;   
         }
-        field(240; "Book Grade"; Enum BookGrade)
+        field(50060; "Book Grade"; Enum BookGrade)
         {
             DataClassification = ToBeClassified;
         }
-        field(250; "Display Messages"; Boolean)
+        field(50070; "Display Messages"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
-        field(260; "Book Grade Justification"; Text[1000])
+        field(50080; "Book Grade Justification"; Text[1000])
         {
             Caption = '';
             NotBlank = true;  
         }
+        
     }
+    
 
     procedure AddBookSequel()
     var

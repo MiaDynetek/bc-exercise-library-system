@@ -23,8 +23,8 @@
   "application": "22.0.0.0",
   "idRanges": [
     {
-      "from": 50250,
-      "to": 50299
+      "from": 90250,
+      "to": 90299
     }
   ],
   "features": [

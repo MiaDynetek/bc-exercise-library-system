@@ -1,4 +1,4 @@
-page 50105 BookSpecifications
+page 90102 BookSpecifications
 {
     PageType = Card;
     ApplicationArea = All;
@@ -6,7 +6,7 @@ page 50105 BookSpecifications
     SourceTable = Library;
     Caption = 'Book Specifications';
     DelayedInsert = true;
-    
+
     layout
     {
         area(Content)
@@ -20,8 +20,7 @@ page 50105 BookSpecifications
                     var
                         myInt: Integer;
                     begin
-                        if Rec."Title" = '' then
-                        begin
+                        if Rec."Title" = '' then begin
                             Message('Please enter the book title.');
                         end;
                     end;
@@ -33,23 +32,22 @@ page 50105 BookSpecifications
                     var
                         myInt: Integer;
                     begin
-                        if Rec."Author" = '' then
-                        begin
-                            Message('Please enter the book Author.'); 
+                        if Rec."Author" = '' then begin
+                            Message('Please enter the book Author.');
                         end;
                     end;
                 }
                 // field("Rented"; Rec."Rented")
                 // {
                 //     ApplicationArea = All;
-                    
+
                 // }
                 field("Series"; Rec."Series")
                 {
                     Lookup = true;
                     TableRelation = BookSeries;
                     ToolTip = 'Specifies the value of the Series Name field.';
-                    
+
                 }
                 field("Genre"; Rec."Genre")
                 {
@@ -58,9 +56,8 @@ page 50105 BookSpecifications
                     var
                         myInt: Integer;
                     begin
-                        if Rec."Genre" = '' then
-                        begin
-                            Message('Please enter the book Genre.'); 
+                        if Rec."Genre" = '' then begin
+                            Message('Please enter the book Genre.');
                         end;
                     end;
                 }
@@ -71,29 +68,27 @@ page 50105 BookSpecifications
                     var
                         myInt: Integer;
                     begin
-                        if Rec."Publisher" = '' then
-                        begin
-                            Message('Please enter the book Publisher.'); 
+                        if Rec."Publisher" = '' then begin
+                            Message('Please enter the book Publisher.');
                         end;
                     end;
                 }
                 field("Book Price"; Rec."Book Price")
                 {
                     ApplicationArea = All;
-                     trigger OnValidate()
+                    trigger OnValidate()
                     var
                         myInt: Integer;
                     begin
-                        if Rec."Book Price" = '' then
-                        begin
-                            Message('Please enter the book Price.'); 
+                        if Rec."Book Price" = '' then begin
+                            Message('Please enter the book Price.');
                         end;
                     end;
                 }
                 field("Publication Date"; Rec."Publication Date")
                 {
                     ApplicationArea = All;
-                    
+
                 }
                 field("Pages"; Rec."Pages")
                 {
@@ -104,7 +99,7 @@ page 50105 BookSpecifications
                     ApplicationArea = All;
                     Editable = false;
                 }
-                 field("Sequel"; Rec."Sequel")
+                field("Sequel"; Rec."Sequel")
                 {
                     ApplicationArea = All;
                     Editable = false;
@@ -124,13 +119,13 @@ page 50105 BookSpecifications
                     ApplicationArea = All;
                     Visible = false;
                 }
-                
-                
+
+
             }
         }
     }
-   
-   
+
+
     //  local procedure EnumValue(Number: Integer): Text
     // begin
     //     exit(F.GetEnumValueNameFromOrdinalValue(F.GetEnumValueOrdinal(Number)));
@@ -151,6 +146,6 @@ page 50105 BookSpecifications
     //     CurrPage.Caption(SelectLbl + F.Caption());
     // end;
 
-    
-    
+
+
 }

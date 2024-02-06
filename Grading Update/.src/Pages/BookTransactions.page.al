@@ -1,4 +1,4 @@
-page 50257 "Book Transactions"
+page 90252 "Book Transactions"
 {
     PageType = List;
     ApplicationArea = All;

@@ -1,4 +1,4 @@
-page 50106 LibraryBookList
+page 90103 LibraryBookList
 {
     PageType = List;
     ApplicationArea = All;
@@ -49,7 +49,7 @@ page 50106 LibraryBookList
                 {
                     ToolTip = 'Specifies the value of the Rented Count field.';
                 }
-                
+
 
             }
         }
@@ -75,7 +75,7 @@ page 50106 LibraryBookList
                     LibarayBookMgmt.Run();
                 end;
             }
-            
+
             action("Display Books Published Within The Last 2 Years")
             {
                 Caption = 'Display Books Published Within The Last 2 Years';
@@ -97,9 +97,9 @@ page 50106 LibraryBookList
                 end;
             }
 
-            
-            
+
+
         }
     }
-   
+
 }

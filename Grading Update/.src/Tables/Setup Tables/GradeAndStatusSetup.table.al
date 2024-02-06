@@ -1,4 +1,4 @@
-table 50250 "Grade and Status Setup"
+table 90251 "Grade and Status Setup"
 {
     DataClassification = ToBeClassified;
     

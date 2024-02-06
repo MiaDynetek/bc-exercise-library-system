@@ -1,6 +1,6 @@
-page 50100 "General Setup"
+page 90100 "General Setup"
 {
-    
+
     PageType = Card;
     SourceTable = "General Setup";
     Caption = 'General Setup';
@@ -8,14 +8,14 @@ page 50100 "General Setup"
     DeleteAllowed = false;
     UsageCategory = Administration;
 
-    
+
     layout
     {
         area(content)
         {
             group("Number Series")
             {
-                
+
                 field("No. Series"; Rec."No. Series")
                 {
                     ApplicationArea = All;
@@ -24,7 +24,7 @@ page 50100 "General Setup"
             }
             group("Number of days a book may be rented")
             {
-                
+
                 field("Start Amount"; Rec.StartAmount)
                 {
                     ApplicationArea = All;
@@ -42,7 +42,7 @@ page 50100 "General Setup"
     trigger OnOpenPage()
     begin
         Rec.InsertIfNotExists();
-        
+
     end;
-    
+
 }

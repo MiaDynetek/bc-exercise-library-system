@@ -1,4 +1,4 @@
-table 50100 "General Setup"
+table 90100 "General Setup"
 {
 
     fields

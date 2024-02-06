@@ -1,4 +1,4 @@
-page 50250 "Grade and Status Setup"
+page 90250 "Grade and Status Setup"
 {
     PageType = ListPart;
     ApplicationArea = All;
