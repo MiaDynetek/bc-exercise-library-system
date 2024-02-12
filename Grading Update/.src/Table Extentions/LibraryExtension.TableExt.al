@@ -4,25 +4,77 @@ tableextension 90250 "Library Extension" extends Library
     {
         field(50050; "Book Status"; Enum BookStatus)
         {
-            Caption = '';
-            NotBlank = true;   
+            Caption = 'Book Status';
+            NotBlank = true;
         }
         field(50060; "Book Grade"; Enum BookGrade)
         {
+            Caption = 'Book Grade';
             DataClassification = ToBeClassified;
         }
         field(50070; "Display Messages"; Boolean)
         {
+            Caption = 'Display Messages';
             DataClassification = ToBeClassified;
         }
         field(50080; "Book Grade Justification"; Text[1000])
         {
-            Caption = '';
-            NotBlank = true;  
+            Caption = 'Book Grade Justification';
+            NotBlank = true;
+        }
+        field(50090; "Date Added"; Date)
+        {
+            Caption = 'Date Added';
+            NotBlank = true;
+        }
+        field(90050; "Date"; Date)
+        {
+            Caption = 'Date';
+            DataClassification = ToBeClassified;
+        }
+        field(90060; "Total unique books"; Integer)
+        {
+            Caption = 'Total unique books';
+            FieldClass = FlowField;
+            CalcFormula = count(Library);
+            Editable = false;
+        }
+        field(90080; "Total new books"; Integer)
+        {
+            AutoFormatType = 1;
+            CalcFormula = count(Library where("Book Grade" = Const(A)));
+            Caption = 'Total new books';
+            Editable = false;
+            FieldClass = FlowField;
+        }
+        field(90100; "Total damaged books"; Integer)
+        {
+            AutoFormatType = 1;
+            CalcFormula = count(Library where("Book Grade" = Const(D)));
+            Caption = 'Total damaged books';
+            Editable = false;
+            FieldClass = FlowField;
+        }
+        field(90300; "Total rented books"; Integer)
+        {
+            AutoFormatType = 1;
+            CalcFormula = count(Library where("Book Status" = Const(Rented)));
+            Caption = 'Total rented books';
+            Editable = false;
+            FieldClass = FlowField;
+        }
+        field(90500; "Total available books"; Integer)
+        {
+            AutoFormatType = 1;
+
+            CalcFormula = count(Library where("Book Status" = Const(Available)));
+            Caption = 'Total available books';
+            Editable = false;
+            FieldClass = FlowField;
         }
         
     }
-    
+
 
     procedure AddBookSequel()
     var
@@ -49,11 +101,11 @@ tableextension 90250 "Library Extension" extends Library
         NewLibrary.Insert();
         NewAddBookSequelPage.SetRecord(NewLibrary);
         NewAddBookSequelPage.Run();
-        
+
     end;
+
     procedure RentBook()
     var
-        LibraryData: Record Library;
         NewBookTransactions: Record BookTransactions;
         NewRentedBook: Page RentBook;
     begin
@@ -61,23 +113,24 @@ tableextension 90250 "Library Extension" extends Library
         if (Rec."Book Status" <> enum::BookStatus::Available) then begin
             Message('This book may not currently be rented, please change the book status to Available before attempting to rent again.');
         end;
-        
+
         if (Rec."Book Status" = enum::BookStatus::Available) then begin
-        NewBookTransactions.Init();
-        NewBookTransactions.Validate("Book Name", Rec.Title);
-        NewBookTransactions.Validate("Book ID", Rec."Book ID");
-        NewBookTransactions.Validate("Date Rented", System.Today());
-        NewBookTransactions.Validate("Days Rented", 3);
-        NewBookTransactions.Validate("Return Date", Today() + 3);
-        NewBookTransactions.Validate("Book Status", "Book Status"::Rented);
-        NewBookTransactions.Validate("Book Grade", Rec."Book Grade");
-        NewBookTransactions.Validate("Book Grade Justification", Rec."Book Grade Justification");
-        NewBookTransactions.Insert();
-        NewRentedBook.SetRecord(NewBookTransactions);
-        NewRentedBook.Run();
+            NewBookTransactions.Init();
+            NewBookTransactions.Validate("Book Name", Rec.Title);
+            NewBookTransactions.Validate("Book ID", Rec."Book ID");
+            NewBookTransactions.Validate("Date Rented", System.Today());
+            NewBookTransactions.Validate("Days Rented", 3);
+            NewBookTransactions.Validate("Return Date", Today() + 3);
+            NewBookTransactions.Validate("Book Status", "Book Status"::Rented);
+            NewBookTransactions.Validate("Book Grade", Rec."Book Grade");
+            NewBookTransactions.Validate("Book Grade Justification", Rec."Book Grade Justification");
+            NewBookTransactions.Insert();
+            NewRentedBook.SetRecord(NewBookTransactions);
+            NewRentedBook.Run();
         end;
-        
+
     end;
+
     procedure ReturnBook()
     var
         PreviousBookTransactions: Record BookTransactions;
@@ -85,10 +138,10 @@ tableextension 90250 "Library Extension" extends Library
         NewRentBook: Page RentBook;
     begin
 
-         if (Rec."Book Status" <> enum::BookStatus::Rented) then begin
-             if  (Rec."Book Status" <> enum::BookStatus::Overdue) then begin
-            Message('Before attempting to change the status of this book to available, please ensure it is currently marked as rented or overdue.');
-             end;
+        if (Rec."Book Status" <> enum::BookStatus::Rented) then begin
+            if (Rec."Book Status" <> enum::BookStatus::Overdue) then begin
+                Message('Before attempting to change the status of this book to available, please ensure it is currently marked as rented or overdue.');
+            end;
         end;
 
         PreviousBookTransactions.SetRange("Book ID", Rec."Book ID");
@@ -97,29 +150,31 @@ tableextension 90250 "Library Extension" extends Library
         PreviousBookTransactions.FindLast();
 
         if (Rec."Book Status" = enum::BookStatus::Rented) or (Rec."Book Status" = enum::BookStatus::Overdue) then begin
-        NewBookTransactions.Init();
-        NewBookTransactions.Validate("Book Name", Rec.Title);
-        NewBookTransactions.Validate("Book ID", Rec."Book ID");
-        NewBookTransactions.Validate("Date Rented", System.Today());
-        NewBookTransactions.Validate("Days Rented", 3);
-        NewBookTransactions.Validate("Return Date", Today() + 3);
-        NewBookTransactions.Validate("Book Status", enum::BookStatus::"Pending Grading");
-        NewBookTransactions.Validate("Display Message", true);
-        NewBookTransactions.Validate("Customer Name", PreviousBookTransactions."Customer Name");
-        NewBookTransactions.Validate("Book Grade", Rec."Book Grade");
-        NewBookTransactions.Validate("Grade Justification", Rec."Grade Justification");
-        NewBookTransactions.Insert();
-        NewRentBook.SetRecord(NewBookTransactions);
-        NewRentBook.Run();
+            NewBookTransactions.Init();
+            NewBookTransactions.Validate("Book Name", Rec.Title);
+            NewBookTransactions.Validate("Book ID", Rec."Book ID");
+            NewBookTransactions.Validate("Date Rented", System.Today());
+            NewBookTransactions.Validate("Days Rented", 3);
+            NewBookTransactions.Validate("Return Date", Today() + 3);
+            NewBookTransactions.Validate("Book Status", enum::BookStatus::"Pending Grading");
+            NewBookTransactions.Validate("Display Message", true);
+            NewBookTransactions.Validate("Customer Name", PreviousBookTransactions."Customer Name");
+            NewBookTransactions.Validate("Book Grade", Rec."Book Grade");
+            NewBookTransactions.Validate("Grade Justification", Rec."Grade Justification");
+            NewBookTransactions.Insert();
+            NewRentBook.SetRecord(NewBookTransactions);
+            NewRentBook.Run();
         end;
-       
+
     end;
+
     procedure FilterReceivingRepair()
     begin
 
         Rec.SetRange("Book Status", enum::BookStatus::"Out for repair");
 
     end;
+
     procedure ArchiveBook()
     begin
 
@@ -131,11 +186,11 @@ tableextension 90250 "Library Extension" extends Library
     end;
 
 
-    procedure AddLog(CurrentBookStatus : enum BookStatus)
+    procedure AddLog(CurrentBookStatus: enum BookStatus)
     var
         NewBookTransactionsLog: Record BookTransactions;
     begin
-        
+
         NewBookTransactionsLog.Init();
         NewBookTransactionsLog.Validate("Book Name", Rec.Title);
         NewBookTransactionsLog.Validate("Book ID", Rec."Book ID");
@@ -145,12 +200,14 @@ tableextension 90250 "Library Extension" extends Library
         NewBookTransactionsLog.Insert();
 
     end;
+
     procedure FilterBooksReceivingRepair()
     begin
 
         Rec.SetRange("Book Status", enum::BookStatus::"Out for repair");
 
     end;
+
     procedure ArchiveBooks()
     begin
 
@@ -158,11 +215,11 @@ tableextension 90250 "Library Extension" extends Library
         Rec.Modify();
         Message('The book you selected have been set to In Poor Condition.');
         Rec.AddLogs(enum::BookStatus::"In Poor Condition");
-        
+
     end;
 
 
-    procedure AddLogs(CurrentBookStatus : enum BookStatus)
+    procedure AddLogs(CurrentBookStatus: enum BookStatus)
     var
         NewBookTransactionsLog: Record BookTransactions;
     begin
@@ -174,16 +231,17 @@ tableextension 90250 "Library Extension" extends Library
         NewBookTransactionsLog.Validate("Book Grade", Rec."Book Grade");
         NewBookTransactionsLog.Validate("Grade Justification", Rec."Grade Justification");
         NewBookTransactionsLog.Insert();
-        
+
     end;
-    procedure AddLogCodeunit(CurrentBookStatus : enum BookStatus; LibraryLog: Record Library)
+
+    procedure AddLogCodeunit(CurrentBookStatus: enum BookStatus; LibraryLog: Record Library)
     var
         NewBookTransactionsLog: Record BookTransactions;
         NoSeriesMgt: Codeunit NoSeriesManagement;
         NextNum: Text[1000];
         GeneralSetup: Record "General Setup";
     begin
-        
+
         NewBookTransactionsLog.Init();
         GeneralSetup.Get();
         GeneralSetup.TestField("No. Series");
@@ -195,14 +253,13 @@ tableextension 90250 "Library Extension" extends Library
         NewBookTransactionsLog.Validate("Book Grade", Rec."Book Grade");
         NewBookTransactionsLog.Validate("Grade Justification", Rec."Grade Justification");
         NewBookTransactionsLog.Insert();
-        
+
     end;
 
     procedure UpdateStatusGradeD()
     begin
 
-        if Rec."Book Grade" = enum::BookGrade::D then 
-        begin
+        if Rec."Book Grade" = enum::BookGrade::D then begin
             Rec.Validate("Book Status", enum::BookStatus::"Out for repair");
         end;
 
@@ -214,11 +271,10 @@ tableextension 90250 "Library Extension" extends Library
         NewBookTransactionsLog: Record BookTransactions;
         BookSpecificationsPage: Page BookSpecifications;
     begin
-        if (Rec."Book Status" = enum::BookStatus::" ") or (Rec."Book Grade" = enum::BookGrade::" ") then
-        begin
-            GetCurrentLibraryBook.SetRange("Book ID",Rec."Book ID");
+        if (Rec."Book Status" = enum::BookStatus::" ") or (Rec."Book Grade" = enum::BookGrade::" ") then begin
+            GetCurrentLibraryBook.SetRange("Book ID", Rec."Book ID");
             if GetCurrentLibraryBook.IsEmpty() then
-            exit;
+                exit;
             GetCurrentLibraryBook.FindFirst();
             BookSpecificationsPage.SetRecord(GetCurrentLibraryBook);
             BookSpecificationsPage.Run();
@@ -233,16 +289,46 @@ tableextension 90250 "Library Extension" extends Library
         NewBookTransactionsLog.Validate("Grade Justification", Rec."Grade Justification");
         NewBookTransactionsLog.Insert();
     end;
-    
+
     trigger OnInsert()
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
         NextNum: Text[1000];
         GeneralSetup: Record "General Setup";
+        Author: Record Author;
+        Author1: Record Author;
+        Author2: Record Author;
     begin
         GeneralSetup.GetRecordOnce();
         GeneralSetup.TestField("No. Series");
         NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
         Rec."Book ID" := GeneralSetup."No. Series" + NextNum;
+        Author.SetRange("Author Name", Rec.Author);
+        if not Author.FindLast() then begin
+            Author1.Init();
+            Author1."Author Name" := Rec.Author;
+            Author1.Insert();
+           
+        end;
     end;
+
+    procedure GetRecordOnce()
+    begin
+        if RecordHasBeenRead then
+            exit;
+        Get();
+        RecordHasBeenRead := true;
+    end;
+
+    procedure InsertIfNotExists()
+    begin
+        Reset();
+        if not Get() then begin
+            Init();
+            Insert(true);
+        end;
+    end;
+
+    var
+        RecordHasBeenRead: Boolean;
 }

@@ -42,7 +42,6 @@ page 90100 "General Setup"
     trigger OnOpenPage()
     begin
         Rec.InsertIfNotExists();
-
     end;
 
 }

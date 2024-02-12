@@ -23,6 +23,11 @@ pageextension 90250 BookSpecificationExt extends BookSpecifications
                 ToolTip = 'Specifies the value of the Book ID field.';
                 Visible = false;
             }
+            field("Date Added"; Rec."Date Added")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Date Added field.';
+            }
 
         }
         
@@ -36,6 +41,7 @@ pageextension 90250 BookSpecificationExt extends BookSpecifications
     end;
 
     trigger OnClosePage()
+    
     begin
 
         Rec.ValidateFieldsAddLog();
