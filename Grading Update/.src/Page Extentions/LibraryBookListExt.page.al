@@ -86,43 +86,13 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
             }
         }
     }
-     trigger OnOpenPage()
+    trigger OnOpenPage()
     var
-        lbooks: Record Library;
-        genre: Record Genre;
-        genre1: Record Genre;
-        // author: Record Author;
-        // author1: Record Author;
-        // counter: Integer;
         UpdateBookStatusOnLoad: Codeunit UpdateBookStatusOnLoad;
     begin 
         UpdateBookStatusOnLoad.Run();
-        // lbooks.SetFilter(Author, '<>''''');
-        // if lbooks.FindSet() then
-        // repeat
-        // author1.SetRange("Author Name", lbooks.Author);
-        //     // if author1.FindLast() then
-        //     //     counter := author1."Auther ID" + 1;
-        //     if not author1.FindSet() then
-        //     begin
-        //         author.Init();
-        //         author."Author Name" := lbooks.Author;
-        //         author.Insert();
-        //     end;
-        // until lbooks.Next() = 0;
-
-        // if lbooks.FindSet() then
-        // repeat
-        // genre1.SetRange("Genre Name", lbooks.Genre);
-        //     // if author1.FindLast() then
-        //     //     counter := author1."Auther ID" + 1;
-        //     if not genre1.FindSet() then
-        //     begin
-        //         genre.Init();
-        //         genre."Genre Name" := lbooks.Genre;
-        //         genre.Insert();
-        //     end;
-        // until lbooks.Next() = 0;
+        Rec.AddNewAuthor();
+        Rec.AddNewGenre();
     end;
  
 }

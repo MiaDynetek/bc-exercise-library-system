@@ -11,7 +11,6 @@ table 90250 "Book Analysis"
         }
         field(90700; "Recently added books"; Integer)
         {
-            AutoFormatType = 1;
             CalcFormula = count(Library where("Date Added" = field("Recently added books Filter")));
             Caption = 'Recently added books';
             Editable = false;
