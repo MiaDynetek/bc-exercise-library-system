@@ -72,6 +72,16 @@ table 90254 "Library Specification"
             Caption = 'Date Filter';
             FieldClass = FlowFilter;
         }
+        field(90190; "Book Author"; Text[500])
+        {
+            Caption = 'Book Author';
+            TableRelation = Author."Author Name";
+        }
+        field(90200; "Book Genre"; Text[500])
+        {
+            Caption = 'Book Genre';
+            TableRelation = Genre."Genre Name";
+        }
     }
 
     keys
@@ -89,5 +99,26 @@ table 90254 "Library Specification"
             Insert(true);
         end;
     end;
+
+    // procedure ApplyFilters("Single Filter Mode": Boolean; Type: Integer)
+    // begin
+    //     if Type = 1 then
+    //     begin
+    //         if "Single Filter Mode" = true then
+    //             Rec.Reset();
+    //                 "Book Genre" := '';
+    //                 "Date" := CalcDate('<CM+1M>');
+    //         Rec.SetFilter("Author Filter", '=%1', "Book Author");
+    //     end;
+    //     if Type = 2 then
+    //     begin
+            
+    //     end;
+    //     if Type = 3 then
+    //     begin
+            
+    //     end;
+    // end;
+
 
 }

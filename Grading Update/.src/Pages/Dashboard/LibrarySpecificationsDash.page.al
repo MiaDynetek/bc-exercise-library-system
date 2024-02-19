@@ -15,7 +15,7 @@ page 90260 "Library Specifications Dash"
             group("Library Filters")
             {
 
-                field("Book Author"; "Book Author")
+                field("Book Author"; Rec."Book Author")
                 {
                     Caption = 'Book Author';
                     ApplicationArea = All;
@@ -23,11 +23,17 @@ page 90260 "Library Specifications Dash"
                     ToolTip = 'Filters the list of books by author when selected.';
                     trigger OnValidate();
                     begin
-                        Rec.SetFilter("Author Filter", '=%1', "Book Author");
+                        if "Single Filter Mode" = true then
+                        begin
+                            Rec.Reset();
+                            Rec."Book Genre" := '';
+                            "Date" := 0D;
+                        end;
+                        Rec.SetFilter("Author Filter", '=%1', Rec."Book Author");
                         CurrPage.Update();
                     end;
                 }
-                field("Book Genre"; "Book Genre")
+                field("Book Genre"; Rec."Book Genre")
                 {
                     Caption = 'Book Genre';
                     ApplicationArea = All;
@@ -35,7 +41,13 @@ page 90260 "Library Specifications Dash"
                     ToolTip = 'Filters the list of books by Genre when selected.';
                     trigger OnValidate();
                     begin
-                        Rec.SetFilter("Genre Filter", '=%1', "Book Genre");
+                        if "Single Filter Mode" = true then
+                        begin
+                            Rec.Reset();
+                            Rec."Book Author" := '';
+                            "Date" := 0D;
+                        end;
+                        Rec.SetFilter("Genre Filter", '=%1', Rec."Book Genre");
                         CurrPage.Update();
                     end;
                 }
@@ -46,8 +58,31 @@ page 90260 "Library Specifications Dash"
                     ToolTip = 'Filters the list of books to display books added before the selected date.';
                     trigger OnValidate();
                     begin
+                        if "Single Filter Mode" = true then
+                        begin
+                            Rec.Reset();
+                            Rec."Book Author" := '';
+                            Rec."Book Genre" := '';
+                        end;
                         Rec.SetFilter("Date Filter", '..%1', "Date");
                         CurrPage.Update();
+                    end;
+                }
+                field("Single Filter Mode"; "Single Filter Mode")
+                {
+                    Caption = 'Single Filter Mode';
+                    ApplicationArea = All;
+                    ToolTip = 'Clears all previous filters and only keeps present filters.';
+                    trigger OnValidate();
+                    begin
+                        if "Single Filter Mode" = true then
+                        begin
+                            Rec.Reset();
+                            Rec."Book Genre" := '';
+                            Rec."Book Author" := '';
+                            "Date" := 0D;
+                            CurrPage.Update();
+                        end; 
                     end;
                 }
             }
@@ -95,9 +130,9 @@ page 90260 "Library Specifications Dash"
                 trigger OnAction()
                 begin
                     Rec.Reset();
-                    "Book Author" := '';
-                    "Book Genre" := '';
-                    "Date" := CalcDate('<CM+1M>');
+                    Rec."Book Author" := '';
+                    Rec."Book Genre" := '';
+                    "Date" := 0D;
                 end;
             }
 
@@ -108,7 +143,6 @@ page 90260 "Library Specifications Dash"
         Rec.InsertIfNotExists();
     end;
     var
-        "Book Author": Text[500];
-        "Book Genre": Text[500];
         Date: Date;
+        "Single Filter Mode": Boolean;
 }
