@@ -16,6 +16,11 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
                 ToolTip = 'Specifies the value of the Grade field.';
                 ApplicationArea = All;
             }
+            field("Date Added"; Rec."Date Added")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Date Added field.';
+            }
             
         }
     }
@@ -81,11 +86,13 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
             }
         }
     }
-     trigger OnOpenPage()
+    trigger OnOpenPage()
     var
         UpdateBookStatusOnLoad: Codeunit UpdateBookStatusOnLoad;
     begin 
         UpdateBookStatusOnLoad.Run();
+        Rec.AddNewAuthor();
+        Rec.AddNewGenre();
     end;
  
 }

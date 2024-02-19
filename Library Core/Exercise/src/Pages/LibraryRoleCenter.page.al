@@ -10,6 +10,7 @@ page 90104 LibraryRoleCenter
         {
             group(Group1)
             {
+                Caption = 'Book Analysis';
                 part(part1; "Open Library")
                 {
                     ApplicationArea = All;

@@ -2,7 +2,12 @@ permissionset 90250 GeneratedPerm
 {
     Assignable = true;
     Permissions = tabledata "Grade and Status Setup"=RIMD,
+        tabledata "Genre"=RIMD,
+        tabledata "Book Analysis"=RIMD,
+        tabledata "Author"=RIMD,
+        tabledata "Library Specification"=RIMD,
         table "Grade and Status Setup"=X,
+        table "Genre"=X,
         report "Library Books"=X,
         report "Library Books RDLC"=X,
         report "Library Report Excel"=X,
