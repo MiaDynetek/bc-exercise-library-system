@@ -1,7 +1,7 @@
 {
   "id": "2766e2ff-f176-4079-9f98-774f2e65762b",
   "name": "Library-Extra",
-  "publisher": "Dynetek",
+  "publisher": "Cronus International Ltd",
   "version": "1.0.0.0",
   "brief": "",
   "description": "",
@@ -10,7 +10,20 @@
   "help": "",
   "url": "",
   "logo": "",
-  "dependencies": [],
+  "dependencies": [
+    {
+      "id":  "2bf1e32f-fc3e-4b0a-a288-678811099a7b",
+      "name":  "Library Core",
+      "publisher":  "Cronus International Ltd",
+      "version":  "1.0.20240229.1530"
+    },
+    {
+      "id": "a633d3fb-cca3-4ad2-ace0-77a00a664032",
+      "name": "Ascent API Libary",
+      "publisher": "Dynetek (Pty) Ltd",
+      "version": "20.3.20230908.0821"
+  }
+  ],
   "screenshots": [],
   "platform": "1.0.0.0",
   "application": "22.0.0.0",
