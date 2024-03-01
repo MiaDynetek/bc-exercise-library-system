@@ -1,4 +1,4 @@
-page 90260 "Library Specifications Dash"
+page 90252 "Library Specifications Dash"
 {
     Caption = 'Library Specifications Dash';
     PageType = Card;

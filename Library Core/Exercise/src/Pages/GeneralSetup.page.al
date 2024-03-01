@@ -1,4 +1,4 @@
-page 90100 "General Setup"
+page 90102 "General Setup"
 {
 
     PageType = Card;

@@ -8,7 +8,7 @@ report 90251 "Library Books RDLC"
     {
         dataitem(DataItemName; Library)
         {
-            DataItemTableView = sorting(Author);
+            DataItemTableView = sorting("Book Author");
             
             column(Title_DataItemName; Title)
             {
@@ -16,7 +16,7 @@ report 90251 "Library Books RDLC"
             column(BookStatus_DataItemName; "Book Status")
             {
             }
-            column(Author_DataItemName; Author)
+            column(Author_DataItemName; "Book Author")
             {
             }
             column(BookGrade_DataItemName; "Book Grade")

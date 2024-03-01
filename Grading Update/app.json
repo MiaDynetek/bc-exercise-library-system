@@ -1,8 +1,8 @@
 {
-  "id": "3f83f512-9397-4658-be67-9087ae539c86",
+  "id": "3f83f512-9397-4658-be67-9087ae539c32",
   "name": "Grading Update",
   "publisher": "Cronus International Ltd",
-  "version": "1.0.20240126.1349",
+  "version": "1.0.20240127.1556",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -13,9 +13,15 @@
   "dependencies": [
     {
       "id":  "2bf1e32f-fc3e-4b0a-a288-678811099a7b",
-      "name":  "Exercise1",
+      "name":  "Library Core",
       "publisher":  "Cronus International Ltd",
-      "version":  "1.0.20240124.1532"
+      "version":  "1.0.20240229.1530"
+  },
+  {
+    "id": "a633d3fb-cca3-4ad2-ace0-77a00a664032",
+    "name": "Ascent API Libary",
+    "publisher": "Dynetek (Pty) Ltd",
+    "version": "20.3.20230908.0821"
   }
   ],
   "screenshots": [],

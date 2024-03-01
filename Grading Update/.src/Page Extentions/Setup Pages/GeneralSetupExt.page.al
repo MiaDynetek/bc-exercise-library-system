@@ -1,4 +1,4 @@
-pageextension 90252 "General Setup Extention" extends "General Setup"
+pageextension 90252 "General Setup Ext" extends "General Setup"
 {
     layout
     {

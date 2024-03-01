@@ -1,4 +1,4 @@
-page 90251 AddBookSequel
+page 90254 AddBookSequel
 {
     PageType = Card;
     ApplicationArea = All;
@@ -24,13 +24,13 @@ page 90251 AddBookSequel
 
                     end;
                 }
-                field("Author"; Rec."Author")
+                field("Author"; Rec."Book Author")
                 {
                     ApplicationArea = All;
                     trigger OnValidate()
                     begin
 
-                        if Rec."Author" = '' then begin
+                        if Rec."Book Author" = '' then begin
                             Message('Please enter the book Author.');
                         end;
 
@@ -177,7 +177,6 @@ page 90251 AddBookSequel
 
     trigger OnOpenPage()
     begin
-        MyProcedure(RouteBufferReturnField::"1");
         if (Rec."Display Message" = true) then begin
             Message('Please assess the condition of the book and update the grade field accordingly.');
         end;
@@ -191,12 +190,4 @@ page 90251 AddBookSequel
 
     end;
 
-    local procedure MyProcedure(RouteBufferReturnField: Option "1","2")
-    begin
-        if RouteBufferReturnField = RouteBufferReturnField::"1" then
-            Message('Works ');
-    end;
-
-    var
-        RouteBufferReturnField: Option "1","2";
 }

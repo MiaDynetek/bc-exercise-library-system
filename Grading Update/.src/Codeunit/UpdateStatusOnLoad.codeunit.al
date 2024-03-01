@@ -1,4 +1,4 @@
-codeunit 90250 UpdateBookStatusOnLoad
+codeunit 90253 UpdateBookStatusOnLoad
 {
     trigger OnRun()
     var

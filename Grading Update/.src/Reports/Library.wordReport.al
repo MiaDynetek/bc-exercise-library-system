@@ -9,7 +9,7 @@ report 90250 "Library Books"
         dataitem(DataItemName; Library)
         {
 
-            column(Author_DataItemName; Author)
+            column(Author_DataItemName; "Book Author")
             {
             }
             column(BookGrade_DataItemName; "Book Grade")

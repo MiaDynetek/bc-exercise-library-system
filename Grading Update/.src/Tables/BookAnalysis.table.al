@@ -1,4 +1,4 @@
-table 90250 "Book Analysis"
+table 90254 "Book Analysis"
 {
     DataClassification = ToBeClassified;
     

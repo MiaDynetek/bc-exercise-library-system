@@ -18,7 +18,7 @@ report 90252 "Library Report Excel"
             column(BookStatus_DataItemName; "Book Status")
             {
             }
-            column(Author_DataItemName; Author)
+            column(Author_DataItemName; "Book Author")
             {
             }
         }

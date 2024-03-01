@@ -1,4 +1,4 @@
-table 90101 BookSeries
+table 90100 BookSeries
 {
     DataClassification = ToBeClassified;
     Caption = 'Book Series';

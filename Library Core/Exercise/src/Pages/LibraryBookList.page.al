@@ -23,10 +23,7 @@ page 90103 LibraryBookList
                 {
                     ToolTip = 'Specifies the value of the Title field.';
                 }
-                field(Author; Rec.Author)
-                {
-                    ToolTip = 'Specifies the value of the Author field.';
-                }
+                
                 field(Genre; Rec.Genre)
                 {
                     ToolTip = 'Specifies the value of the Genre field.';
@@ -96,7 +93,7 @@ page 90103 LibraryBookList
                     // Rec.SetFilter("Publication Date", '>%1',TwoYearsAgo);
                 end;
             }
-
+            
 
 
         }

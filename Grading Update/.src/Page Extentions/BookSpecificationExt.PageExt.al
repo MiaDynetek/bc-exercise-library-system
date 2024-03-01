@@ -28,20 +28,31 @@ pageextension 90250 BookSpecificationExt extends BookSpecifications
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Date Added field.';
             }
-
+            field("Author"; Rec."Book Author")
+            {
+                ApplicationArea = All;
+                trigger OnValidate()
+                var
+                    myInt: Integer;
+                begin
+                    if Rec."Book Author" = '' then begin
+                        Message('Please enter the book Author.');
+                    end;
+                end;
+            }
         }
-        
+
     }
     trigger OnModifyRecord(): Boolean
     begin
 
         Rec.UpdateStatusGradeD();
         Rec.UpdatePrequelSequel();
-        
+
     end;
 
     trigger OnClosePage()
-    
+
     begin
 
         Rec.ValidateFieldsAddLog();
