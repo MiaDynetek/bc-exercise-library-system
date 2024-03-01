@@ -1,4 +1,4 @@
-table 90102 Library
+table 90103 Library
 {
     Caption = 'Library';
     DataClassification = ToBeClassified;
@@ -21,6 +21,7 @@ table 90102 Library
         {
             Caption = '';
             NotBlank = true;
+            ObsoleteState = Removed;
         }
         field(40; "Rented"; Boolean)
         {

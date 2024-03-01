@@ -1,4 +1,4 @@
-page 90257 "Book Analysis"
+page 90255 "Book Analysis"
 {
     Caption = 'Book Analysis';
     PageType = CardPart;

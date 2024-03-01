@@ -1,4 +1,4 @@
-table 90253 "Genre"
+table 90251 "Genre"
 {
     Caption = 'Genre';
     LookupPageId = Genres;

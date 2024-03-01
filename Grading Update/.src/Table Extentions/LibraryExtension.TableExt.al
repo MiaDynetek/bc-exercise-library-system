@@ -28,24 +28,176 @@ tableextension 90250 "Library Extension" extends Library
             Caption = 'Date Added';
             NotBlank = true;
         }
-        
-    }
+        field(90000; "Open Library ID"; Text[1000])
+        {
+            Caption = 'Open Library ID';
+        }
+        field(90010; "Book Title"; Text[50])
+        {
+            Caption = 'Title';
+            NotBlank = true;
+        }
+        field(90020; "Created"; Text[50])
+        {
+            Caption = 'Created';
+            NotBlank = true;
+        }
+        field(90030; "Description"; Text[2048])
+        {
+            Caption = 'Description';
+        }
+        field(90040; "Search Title"; Text[50])
+        {
+            Caption = 'Search Title';
+            NotBlank = true;
+        }
+        field(90050; "Author Open Library ID"; Text[500])
+        {
+            Caption = 'Author Open Library ID';
+            NotBlank = true;
+        }
+        field(90060; "Book Author"; Text[500])
+        {
+            Caption = 'Book Author';
+            TableRelation = Author."Author Name";
+            NotBlank = true;
+        }
 
+    }
+    procedure GetBookAuthor(BookID: Text[500]; GetSpecificBookData: Text): Text
+    var
+        JsonObject: JsonObject;
+        JsonObject1: JsonObject;
+        AATJSONHelper: Codeunit "AAT JSON Helper";
+        JsonToken: JsonToken;
+        JsonArray: JsonArray;
+        JsonTokenValue: JsonToken;
+    begin
+        AATJSONHelper.InitializeJsonObjectFromText(GetSpecificBookData);
+        JsonObject := AATJSONHelper.GetJsonObject();
+        if AATJSONHelper.GetJsonArray(JsonObject, 'author_name', JsonArray) then begin
+            foreach JsonToken in JsonArray do begin
+                Message(Format(JsonToken));
+            end;
+            // JsonTokenValue := JsonToken;
+            // if JsonToken.IsObject = true then begin
+            //     JsonObject1 := JsonToken.AsObject();
+            //     JsonObject1.Get('value', JsonTokenValue);
+            //     Exit(Format(JsonTokenValue));
+            // end else begin
+            //     Exit(Format(JsonToken));
+            // end;
+        end else begin
+            Exit(Format('N/A'));
+        end;
+    end;
+    procedure GetBookDescription(BookID: Text[500]; GetSpecificBookData: Text): Text
+    var
+        JsonObject: JsonObject;
+        JsonObject1: JsonObject;
+        AATJSONHelper: Codeunit "AAT JSON Helper";
+        JsonToken: JsonToken;
+        JsonTokenValue: JsonToken;
+    begin
+        AATJSONHelper.InitializeJsonObjectFromText(GetSpecificBookData);
+        JsonObject := AATJSONHelper.GetJsonObject();
+        if JsonObject.Get('description', JsonToken) then begin
+            JsonTokenValue := JsonToken;
+            if JsonToken.IsObject = true then begin
+                JsonObject1 := JsonToken.AsObject();
+                JsonObject1.Get('value', JsonTokenValue);
+                Exit(Format(JsonTokenValue));
+            end else begin
+                Exit(Format(JsonToken));
+            end;
+        end else begin
+            Exit(Format('N/A'));
+        end;
+    end;
+
+    procedure GetBookCreated(BookID: Text[500]; GetSpecificBookData: Text): Text
+    var
+        JsonObject: JsonObject;
+        JsonObject1: JsonObject;
+        AATJSONHelper: Codeunit "AAT JSON Helper";
+        JsonToken: JsonToken;
+        JsonTokenValue: JsonToken;
+    begin
+        AATJSONHelper.InitializeJsonObjectFromText(GetSpecificBookData);
+        JsonObject := AATJSONHelper.GetJsonObject();
+        if JsonObject.Get('created', JsonToken) then begin
+            JsonObject1 := JsonToken.AsObject();
+            if JsonObject1.Get('value', JsonTokenValue) then begin
+                Exit(Format(JsonTokenValue));
+            end else begin
+                exit('N/A');
+            end;
+        end else begin
+            exit('N/A');
+        end;
+    end;
+
+    procedure GetAuthorDataItem(GetSpecificBookData: Text; AuthorDataItem: Text): Text
+    var
+        JsonObject: JsonObject;
+        JsonObject1: JsonObject;
+        AATJSONHelper: Codeunit "AAT JSON Helper";
+        JsonToken: JsonToken;
+        JsonTokenValue: JsonToken;
+    begin
+        AATJSONHelper.InitializeJsonObjectFromText(GetSpecificBookData);
+        JsonObject := AATJSONHelper.GetJsonObject();
+        if JsonObject.Get(AuthorDataItem, JsonToken) then begin
+            exit(Format(JsonToken));
+        end else begin
+            exit('N/A');
+        end;
+    end;    
+
+
+    procedure RemoveAllQuotes(FinalOutput: Text): Text
+    var
+        RemoveTags: List of [Text];
+        PureOutput: Text;
+    begin
+        if FinalOutput.Contains('"') then begin
+            RemoveTags := FinalOutput.Split('"');
+            if RemoveTags.Count() = 2 then begin
+                PureOutput := RemoveTags.Get(1);
+                Exit(PureOutput);
+            end else begin
+                PureOutput := RemoveTags.Get(2);
+                Exit(PureOutput);
+            end;
+        end else begin
+            PureOutput := Created;
+            Exit(PureOutput);
+        end;
+    end;
+
+    procedure GetBookTitle(BookID: Text[500]; GetSpecificBookData: Text): Text
+    var
+        JsonObject: JsonObject;
+        AATJSONHelper: Codeunit "AAT JSON Helper";
+        JsonToken: JsonToken;
+    begin
+        AATJSONHelper.InitializeJsonObjectFromText(GetSpecificBookData);
+        JsonObject := AATJSONHelper.GetJsonObject();
+        if JsonObject.Get('title', JsonToken) then begin
+            Exit(Format(JsonToken));
+        end else begin
+            exit('N/A');
+        end;
+    end;
 
     procedure AddBookSequel()
     var
         NewLibrary: Record Library;
         NewAddBookSequelPage: Page AddBookSequel;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
-        NextNum: Text[1000];
-        GeneralSetup: Record "General Setup";
     begin
-        GeneralSetup.GetRecordOnce();
-        GeneralSetup.TestField("No. Series");
-        NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
         NewLibrary.Init();
-        NewLibrary.Validate("Book ID", GeneralSetup."No. Series" + NextNum);
-        NewLibrary.Validate(Author, Rec.Author);
+        NewLibrary.Validate("Book ID", NextNumberSeries());
+        NewLibrary.Validate("Book Author", Rec."Book Author");
         NewLibrary.Validate(Series, Rec.Series);
         NewLibrary.Validate(Genre, Rec.Genre);
         NewLibrary.Validate(Publisher, Rec.Publisher);
@@ -58,6 +210,18 @@ tableextension 90250 "Library Extension" extends Library
         NewAddBookSequelPage.SetRecord(NewLibrary);
         NewAddBookSequelPage.Run();
 
+    end;
+
+    procedure NextNumberSeries(): Text
+    var
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NextNum: Text[1000];
+        GeneralSetup: Record "General Setup";
+    begin
+        GeneralSetup.GetRecordOnce();
+        GeneralSetup.TestField("No. Series");
+        NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
+        exit(GeneralSetup."No. Series" + NextNum);
     end;
 
     procedure RentBook()
@@ -170,7 +334,7 @@ tableextension 90250 "Library Extension" extends Library
     //         Rec.SetFilter(Rec.Author, '=%1', "Book Author");
     //     if (("Book Genre" <> '') and ((Type = 1) or (FilterAll = true))) then
     //     Rec.SetFilter(Rec.Genre, '=%1', "Book Genre");
-        
+
     //     if ((Type = 2) or (FilterAll = true)) then
     //     begin
     //         Rec.SetFilter(Rec."Date Added", '<>%1',0D);
@@ -260,6 +424,18 @@ tableextension 90250 "Library Extension" extends Library
         NewBookTransactionsLog.Insert();
     end;
 
+    procedure GetNextID(): Text[1000]
+    var
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NextNum: Text[1000];
+        GeneralSetup: Record "General Setup";
+    begin
+        GeneralSetup.GetRecordOnce();
+        GeneralSetup.TestField("No. Series");
+        NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
+        Exit(GeneralSetup."No. Series" + NextNum);
+    end;
+
     trigger OnInsert()
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
@@ -270,36 +446,37 @@ tableextension 90250 "Library Extension" extends Library
         GeneralSetup.TestField("No. Series");
         NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
         Rec."Book ID" := GeneralSetup."No. Series" + NextNum;
-        AddNewAuthor();
+       // AddNewAuthor();
         AddNewGenre();
     end;
+
     trigger OnModify()
     begin
-        AddNewAuthor();
+        //AddNewAuthor();
         AddNewGenre();
     end;
-    procedure AddNewAuthor()
-    var
-        Author: Record Author;
-        Author1: Record Author;
-    begin
-        if Rec.Author <> '' then
-        begin
-            Author.SetRange("Author Name", Rec.Author);
-            if not Author.FindLast() then begin
-                Author1.Init();
-                Author1."Author Name" := Rec.Author;
-                Author1.Insert();
-            end;
-        end;
-    end;
+
+    // procedure AddNewAuthor()
+    // var
+    //     Author: Record Author;
+    //     Author1: Record Author;
+    // begin
+    //     if Rec."Book Author" <> '' then begin
+    //         Author.SetRange("Author Name", Rec.Author);
+    //         if not Author.FindLast() then begin
+    //             Author1.Init();
+    //             Author1."Author Name" := Rec.Author;
+    //             Author1.Insert();
+    //         end;
+    //     end;
+    // end;
+
     procedure AddNewGenre()
     var
         Genre: Record Genre;
         Genre1: Record Genre;
     begin
-        if Rec."Genre" <> '' then
-        begin
+        if Rec."Genre" <> '' then begin
             Genre.SetRange("Genre Name", Rec."Genre");
             if not Genre.FindLast() then begin
                 Genre1.Init();

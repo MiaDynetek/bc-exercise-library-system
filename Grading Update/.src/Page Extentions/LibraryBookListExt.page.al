@@ -2,10 +2,14 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
 {
     layout
     {
-        
+
         addafter(Title)
         {
-           
+            field("Book Author"; Rec."Book Author")
+            {
+                ToolTip = 'Specifies the value of the Author field.';
+                ApplicationArea = All;
+            }
             field("Book Status"; Rec."Book Status")
             {
                 ToolTip = 'Specifies the value of the Status field.';
@@ -21,10 +25,10 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Date Added field.';
             }
-            
+
         }
     }
-    
+
     actions
     {
         addlast(Processing)
@@ -50,7 +54,7 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
                 begin
                     Rec.ReturnBook();
                 end;
-            }   
+            }
             action("Books that are Receiving Repair")
             {
                 Caption = 'Books that are Receiving Repair';
@@ -62,7 +66,7 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
                     Rec.FilterBooksReceivingRepair();
                 end;
             }
-             action("Archive Book")
+            action("Archive Book")
             {
                 Caption = 'Archive Book';
                 ToolTip = 'Select this action to Archive the selected book.';
@@ -84,15 +88,28 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
                     Rec.AddBookSequel();
                 end;
             }
+            action("Test API")
+            {
+                Caption = 'Test API';
+                ToolTip = 'Select this action to add a new book as a sequel to the selected book.';
+                ApplicationArea = All;
+                Image = Import;
+                trigger OnAction()
+                var
+                    "Search Library API": Codeunit "Search Library API";
+                begin
+                    "Search Library API".Run();
+                end;
+            }
         }
     }
     trigger OnOpenPage()
     var
         UpdateBookStatusOnLoad: Codeunit UpdateBookStatusOnLoad;
-    begin 
+    begin
         UpdateBookStatusOnLoad.Run();
-        Rec.AddNewAuthor();
+        //Rec.AddNewAuthor();
         Rec.AddNewGenre();
     end;
- 
+
 }

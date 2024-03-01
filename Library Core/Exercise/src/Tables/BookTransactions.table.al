@@ -1,4 +1,4 @@
-table 90103 BookTransactions
+table 90101 BookTransactions
 {
     DataClassification = ToBeClassified;
     Caption = 'Book Transactions';

@@ -1,4 +1,4 @@
-table 90254 "Library Specification"
+table 90252 "Library Specification"
 {
     DataClassification = ToBeClassified;
     
@@ -20,7 +20,7 @@ table 90254 "Library Specification"
         field(90120; "Total new books"; Integer)
         {
             CalcFormula = count(Library where("Book Grade" = Const(A),
-                                Author = field("Author Filter"),
+                                "Book Author" = field("Author Filter"),
                                 Genre = field("Genre Filter"),
                                 "Date Added" = field("Date Filter")));
             Caption = 'Total new books';
@@ -30,7 +30,7 @@ table 90254 "Library Specification"
         field(90130; "Total damaged books"; Integer)
         {
             CalcFormula = count(Library where("Book Grade" = Const(D),
-                                Author = field("Author Filter"),
+                                "Book Author" = field("Author Filter"),
                                 Genre = field("Genre Filter"),
                                 "Date Added" = field("Date Filter")));
             Caption = 'Total damaged books';
@@ -40,7 +40,7 @@ table 90254 "Library Specification"
         field(90140; "Total rented books"; Integer)
         {
             CalcFormula = count(Library where("Book Status" = Const(Rented),
-                                Author = field("Author Filter"),
+                                "Book Author" = field("Author Filter"),
                                 Genre = field("Genre Filter"),
                                 "Date Added" = field("Date Filter")));
             Caption = 'Total rented books';
@@ -50,7 +50,7 @@ table 90254 "Library Specification"
         field(90150; "Total available books"; Integer)
         {
             CalcFormula = count(Library where("Book Status" = Const(Available),
-                                Author = field("Author Filter"),
+                                "Book Author" = field("Author Filter"),
                                 Genre = field("Genre Filter"),
                                 "Date Added" = field("Date Filter")));
             Caption = 'Total available books';

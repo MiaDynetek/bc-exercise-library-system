@@ -1,4 +1,4 @@
-page 90258 "Genres"
+page 90251 "Genres"
 {
     caption = 'Genres';
     PageType = List;

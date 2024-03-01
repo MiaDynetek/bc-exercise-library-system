@@ -1,4 +1,4 @@
-page 90102 BookSpecifications
+page 90101 BookSpecifications
 {
     PageType = Card;
     ApplicationArea = All;
@@ -25,18 +25,7 @@ page 90102 BookSpecifications
                         end;
                     end;
                 }
-                field("Author"; Rec."Author")
-                {
-                    ApplicationArea = All;
-                    trigger OnValidate()
-                    var
-                        myInt: Integer;
-                    begin
-                        if Rec."Author" = '' then begin
-                            Message('Please enter the book Author.');
-                        end;
-                    end;
-                }
+                
                 // field("Rented"; Rec."Rented")
                 // {
                 //     ApplicationArea = All;
