@@ -8,6 +8,7 @@ table 90255 "Library Books Temp"
         {
             Caption = 'Open Library ID';
         }
+        
         field(90010; "Title"; Text[50])
         {
             Caption = 'Title';
@@ -37,6 +38,7 @@ table 90255 "Library Books Temp"
             Caption = 'Add Book';
             NotBlank = true;
         }
+        
     }
     procedure GetBookDescription(BookID: Text[500]; GetSpecificBookData: Text): Text
     var

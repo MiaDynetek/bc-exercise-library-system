@@ -59,7 +59,7 @@ tableextension 90251 "Book Transaction Extension" extends BookTransactions
         CurrRentBookPage: Page RentBook;
     begin
         if (Rec."Book Status" = enum::BookStatus::" ") or (Rec."Book Grade" = enum::BookGrade::" ") then begin
-            CurrLibraryBook.SetRange("Book ID", Rec."Book ID");
+       //     CurrLibraryBook.SetRange("Book ID", Rec."Book ID");
             CurrLibraryBook.FindFirst();
             // currPage.SetRecord(getCurrBook);
             // currPage.Run();
@@ -69,7 +69,7 @@ tableextension 90251 "Book Transaction Extension" extends BookTransactions
 
     procedure ValidateDaysRented()
     var
-        GeneralSetup: Record "General Setup";
+        GeneralSetup: Record "General Library Setup";
     begin
         GeneralSetup.GetRecordOnce();
         GeneralSetup.TestField("No. Series");
@@ -108,11 +108,11 @@ tableextension 90251 "Book Transaction Extension" extends BookTransactions
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
         NextNum: Text[1000];
-        GeneralSetup: Record "General Setup";
+        GeneralSetup: Record "General Library Setup";
     begin
         GeneralSetup.Get();
         GeneralSetup.TestField("No. Series");
         NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
-        // Rec."Rent ID " := GeneralSetup."No. Series" + NextNum;
+        Rec."Rent ID " := GeneralSetup."No. Series" + NextNum;
     end;
 }

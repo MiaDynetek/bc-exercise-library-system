@@ -5,9 +5,9 @@ table 90103 Library
     Extensible = true;
     fields
     {
-        field(10; "Book ID"; Text[1000])
+        field(10; "Book ID"; Text[2000])
         {
-            // AutoIncrement = true;
+           // AutoIncrement = true;
             Caption = '';
 
             // TableRelation = "No. Series";
@@ -140,15 +140,15 @@ table 90103 Library
     var
         libraryBooks: Record Library;
     begin
-        if (Rec."Edit Sequel" = true) then begin
-            libraryBooks.SetFilter("Book ID", '=%1', Rec."Prequel ID");
-            if libraryBooks.IsEmpty() then
-                exit;
-            libraryBooks.FindFirst();
-            libraryBooks.Sequel := Rec.Title;
-            libraryBooks."Sequel ID" := Rec."Book ID";
-            libraryBooks.Modify();
-        end;
+        // if (Rec."Edit Sequel" = true) then begin
+        //     libraryBooks.SetFilter("Book ID", '=%1', Rec."Prequel ID");
+        //     if libraryBooks.IsEmpty() then
+        //         exit;
+        //     libraryBooks.FindFirst();
+        //     libraryBooks.Sequel := Rec.Title;
+        //     libraryBooks."Sequel ID" := Rec."Book ID";
+        //     libraryBooks.Modify();
+        // end;
     end;
 
     procedure LastTwoYearsFilter()

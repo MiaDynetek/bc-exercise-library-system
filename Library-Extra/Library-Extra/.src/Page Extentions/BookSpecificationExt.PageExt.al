@@ -40,6 +40,11 @@ pageextension 90250 BookSpecificationExt extends BookSpecifications
                     end;
                 end;
             }
+            field("Book Cover"; Rec."Book Cover")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Book Cover field.';
+            }
         }
 
     }

@@ -1,11 +1,11 @@
-table 90102 "General Setup"
+table 90102 "General Library Setup"
 {
 
     fields
     {
-        field(1; "Primary Key"; Integer)
+        field(1; "Primary Key"; Code[20])
         {
-            AutoIncrement = true;
+            //AutoIncrement = true;
         }
         field(510; StartAmount; Integer)
         {
@@ -49,6 +49,5 @@ table 90102 "General Setup"
             Insert(true);
         end;
     end;
-
 
 }

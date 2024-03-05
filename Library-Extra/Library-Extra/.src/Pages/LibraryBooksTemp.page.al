@@ -45,6 +45,16 @@ page 90257 "Library Books Temp"
                     ToolTip = 'Specifies the value of the Open Library ID field.';
                     //Editable = false;
                 }
+                field("Book Cover"; Rec."Book Cover")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Book Cover field.';
+                }
+                field("Book Cover URL"; Rec."Book Cover URL")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Book Cover field.';
+                }
                 // field("Temp Book ID"; Rec."Temp Book ID")
                 // {
                 //     ApplicationArea = All;
@@ -66,6 +76,7 @@ page 90257 "Library Books Temp"
     {
         area(Processing)
         {
+
             action("Find Books")
             {
                 ApplicationArea = All;
@@ -81,6 +92,7 @@ page 90257 "Library Books Temp"
                     JsonObject2: JsonObject;
                     JsonObject3: JsonObject;
                     JsonToken: JsonToken;
+                    JsonToken2: JsonToken;
                     JsonTokenID: JsonToken;
                     JsonTokenAuthor: JsonToken;
                     JsonArrayAuthor: JsonArray;
@@ -97,13 +109,18 @@ page 90257 "Library Books Temp"
                     FinalTitle: Text;
                     FinalBookID: Text;
                     RemoveTags: List of [Text];
-
+                    LibraryBooks: Record Library;
+                    LastID: Text;
+                    CoverOut: Text;
+                    RemoveBrackets: List of [Text];
                 begin
                     Rec.DeleteAll(true);
                     Books := ReturnSearchedBooks.GetSearchedBooks("Search Title");
+                    // Message(Books);
                     AATJSONHelper.InitializeJsonObjectFromText(Books);
                     JsonObject := AATJSONHelper.GetJsonObject();
                     AATJSONHelper.GetJsonArray(JsonObject, 'docs', JsonArray);
+                    LastID := LibraryBooks."Book ID";
                     foreach JsonToken in JsonArray do begin
                         Rec.Init();
                         if format(JsonToken).Contains('key') then begin
@@ -117,7 +134,7 @@ page 90257 "Library Books Temp"
                                 Created := Rec.GetBookCreated(BookID, SpecificBookData);
                                 Title := Rec.GetBookTitle(BookID, SpecificBookData);
                                 DescriptionPure := CopyStr(Description, 1, 2048);
-
+                                //LibraryBooks.FindLast();
                                 Rec.Validate("Book ID", Rec.NextNumberSeries());
                                 Rec.Validate("Open Library ID", Rec.RemoveAllQuotes(BookID));
                                 Rec.Validate(Created, Rec.RemoveAllQuotes(Created));
@@ -140,6 +157,16 @@ page 90257 "Library Books Temp"
                             end;
                         end;
                         Rec.Insert();
+                        if format(JsonToken).Contains('cover_i') then begin
+                            JsonObject3 := JsonToken.AsObject();
+                            JsonToken2 := AATJSONHelper.GetJsonToken(JsonObject3, 'cover_i');
+                            CoverOut := Format(JsonToken2);
+                            Rec."Book Cover URL" := 'https://covers.openlibrary.org/b/id/' + CoverOut + '.jpg';
+                            Rec.GetBookCover(Rec."Book Cover URL");
+                        end;
+
+
+
                     end;
                 end;
 

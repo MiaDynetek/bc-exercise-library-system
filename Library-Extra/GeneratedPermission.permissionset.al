@@ -7,12 +7,14 @@ permissionset 90250 GeneratedPermission
         tabledata "Grade and Status Setup"=RIMD,
         tabledata "Library Books Temp"=RIMD,
         tabledata "Library Specification"=RIMD,
+        tabledata "General Library Setup"=RIMD,
         table Author=X,
         table "Book Analysis"=X,
         table Genre=X,
         table "Grade and Status Setup"=X,
         table "Library Books Temp"=X,
         table "Library Specification"=X,
+        table "General Library Setup"=X,
         report "Library Books"=X,
         report "Library Books RDLC"=X,
         report "Library Report Excel"=X,
@@ -30,5 +32,6 @@ permissionset 90250 GeneratedPermission
         //page "Library Books Temp"=X,
         page "Library Role"=X,
         page "Library Specifications Dash"=X,
-        page "Rented Book List"=X;
+        page "Rented Book List"=X,
+        page "General Library Setup"=X;
 }

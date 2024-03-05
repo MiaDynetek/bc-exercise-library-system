@@ -62,6 +62,14 @@ tableextension 90250 "Library Extension" extends Library
             TableRelation = Author."Author Name";
             NotBlank = true;
         }
+        field(90070; "Book Cover"; MediaSet)
+        {
+            Caption = 'Book Cover';
+        }
+        field(90080; "Book Cover URL"; Text[1000])
+        {
+            Caption = 'Book Cover URL';
+        }
 
     }
     procedure GetBookAuthor(BookID: Text[500]; GetSpecificBookData: Text): Text
@@ -91,6 +99,7 @@ tableextension 90250 "Library Extension" extends Library
             Exit(Format('N/A'));
         end;
     end;
+
     procedure GetBookDescription(BookID: Text[500]; GetSpecificBookData: Text): Text
     var
         JsonObject: JsonObject;
@@ -152,7 +161,7 @@ tableextension 90250 "Library Extension" extends Library
         end else begin
             exit('N/A');
         end;
-    end;    
+    end;
 
 
     procedure RemoveAllQuotes(FinalOutput: Text): Text
@@ -196,13 +205,13 @@ tableextension 90250 "Library Extension" extends Library
         NewAddBookSequelPage: Page AddBookSequel;
     begin
         NewLibrary.Init();
-        NewLibrary.Validate("Book ID", NextNumberSeries());
+        // NewLibrary.Validate("Book ID", NextNumberSeries());
         NewLibrary.Validate("Book Author", Rec."Book Author");
         NewLibrary.Validate(Series, Rec.Series);
         NewLibrary.Validate(Genre, Rec.Genre);
         NewLibrary.Validate(Publisher, Rec.Publisher);
         NewLibrary.Validate(Prequel, Rec.Title);
-        NewLibrary.Validate("Prequel ID", Rec."Book ID");
+        //   NewLibrary.Validate("Prequel ID", Rec."Book ID");
         NewLibrary.Validate("Edit Sequel", true);
         NewLibrary.Validate("Book Status", enum::BookStatus::"Pending Grading");
         NewLibrary.Validate("Display Message", true);
@@ -216,12 +225,12 @@ tableextension 90250 "Library Extension" extends Library
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
         NextNum: Text[1000];
-        GeneralSetup: Record "General Setup";
+        GeneralSetup: Record "General Library Setup";
     begin
         GeneralSetup.GetRecordOnce();
         GeneralSetup.TestField("No. Series");
         NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
-        exit(GeneralSetup."No. Series" + NextNum);
+        exit(NextNum);
     end;
 
     procedure RentBook()
@@ -373,14 +382,14 @@ tableextension 90250 "Library Extension" extends Library
         NewBookTransactionsLog: Record BookTransactions;
         NoSeriesMgt: Codeunit NoSeriesManagement;
         NextNum: Text[1000];
-        GeneralSetup: Record "General Setup";
+        GeneralSetup: Record "General Library Setup";
     begin
 
         NewBookTransactionsLog.Init();
         GeneralSetup.Get();
         GeneralSetup.TestField("No. Series");
         NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
-        //NewBookTransactionsLog.Validate("Rent ID ", GeneralSetup."No. Series" + NextNum);
+        NewBookTransactionsLog.Validate("Rent ID ", GeneralSetup."No. Series" + NextNum);
         NewBookTransactionsLog.Validate("Book Name", Rec.Title);
         NewBookTransactionsLog.Validate("Book ID", Rec."Book ID");
         NewBookTransactionsLog.Validate("Book Status", CurrentBookStatus);
@@ -428,7 +437,7 @@ tableextension 90250 "Library Extension" extends Library
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
         NextNum: Text[1000];
-        GeneralSetup: Record "General Setup";
+        GeneralSetup: Record "General Library Setup";
     begin
         GeneralSetup.GetRecordOnce();
         GeneralSetup.TestField("No. Series");
@@ -440,13 +449,13 @@ tableextension 90250 "Library Extension" extends Library
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
         NextNum: Text[1000];
-        GeneralSetup: Record "General Setup";
+        GeneralSetup: Record "General Library Setup";
     begin
         GeneralSetup.GetRecordOnce();
         GeneralSetup.TestField("No. Series");
         NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
         Rec."Book ID" := GeneralSetup."No. Series" + NextNum;
-       // AddNewAuthor();
+        // AddNewAuthor();
         AddNewGenre();
     end;
 
@@ -484,6 +493,44 @@ tableextension 90250 "Library Extension" extends Library
                 Genre1.Insert();
             end;
         end;
+    end;
+
+    procedure UpdatePhoto(RequestURL: Text): InStream
+    var
+        AATRestHelper: Codeunit "AAT REST Helper";
+        SearchTitle: Text;
+        "Return Searched Books": Codeunit "Return Searched Books";
+        Client: HttpClient;
+        Content: HttpContent;
+        Response: HttpResponseMessage;
+        InStr: InStream;
+        HttpRequestMessage: HttpRequestMessage;
+        RequestHeaders: HttpHeaders;
+        RequestBody: Text[250];
+        HttpContent: HttpContent;
+        ContentHeaders: HttpHeaders;
+        HttpClient: HttpClient;
+        HttpResponseMessage: HttpResponseMessage;
+        RestTempBlob: Codeunit "Temp Blob";
+        ResponseInstream: InStream;
+        ResponseImg: InStream;
+    begin
+        HttpRequestMessage.Method := 'GET';
+        HttpRequestMessage.SetRequestUri(RequestURL);
+        HttpRequestMessage.GetHeaders(RequestHeaders);
+
+        HttpContent.WriteFrom(RequestBody);
+        HttpContent.GetHeaders(ContentHeaders);
+        if ContentHeaders.Contains('Content-Type') then
+            ContentHeaders.Remove('Content-Type');
+        ContentHeaders.Add('Content-Type', 'application/x-www-form-urlencoded');
+        HttpRequestMessage.Content(HttpContent);
+        HttpClient.Send(HttpRequestMessage, HttpResponseMessage);
+        RestTempBlob.CreateInStream(ResponseInstream);
+        HttpResponseMessage.Content().ReadAs(ResponseImg);
+
+        Rec."Book Cover".ImportStream(ResponseImg, 'Cover');
+        Rec.Modify(true);
     end;
 
     procedure GetRecordOnce()

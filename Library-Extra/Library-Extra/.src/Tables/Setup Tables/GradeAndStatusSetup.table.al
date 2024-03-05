@@ -19,15 +19,15 @@ table 90253 "Grade and Status Setup"
             DataClassification = ToBeClassified;
             
         }
-        // field(730; SetupTableID; Integer)
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
+        field(730; SetupTableID; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     
     keys
     {
-        key(Key1; BookGrade)
+        key(Key1; BookGrade, SetupTableID)
         {
             Clustered = true;
         }

@@ -5,10 +5,10 @@ table 90101 BookTransactions
 
     fields
     {
-        field(210; "Rent ID "; Integer)
+        field(210; "Rent ID "; Text[2000])
         {
             DataClassification = ToBeClassified;
-            AutoIncrement = true;
+           // AutoIncrement = true;
         }
         // field(220;"Status"; Enum Statuses)
         // {
@@ -27,7 +27,7 @@ table 90101 BookTransactions
             DataClassification = ToBeClassified;
             NotBlank = true;
         }
-        field(250; "Book ID"; Text[1000])
+        field(250; "Book ID"; Text[2000])
         {
             TableRelation = Library."Book ID";
             DataClassification = ToBeClassified;

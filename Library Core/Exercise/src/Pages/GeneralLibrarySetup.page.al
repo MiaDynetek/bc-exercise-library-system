@@ -1,14 +1,14 @@
-page 90102 "General Setup"
+page 90102 "General Library Setup"
 {
 
     PageType = Card;
-    SourceTable = "General Setup";
-    Caption = 'General Setup';
+    SourceTable = "General Library Setup";
+    Caption = 'General Library Setup';
     InsertAllowed = false;
     DeleteAllowed = false;
     UsageCategory = Administration;
-
-
+    ApplicationArea = All;
+   
     layout
     {
         area(content)
@@ -36,6 +36,7 @@ page 90102 "General Setup"
                     ToolTip = 'Specifies the value of the EndDays field.';
                 }
             }
+          
         }
     }
 

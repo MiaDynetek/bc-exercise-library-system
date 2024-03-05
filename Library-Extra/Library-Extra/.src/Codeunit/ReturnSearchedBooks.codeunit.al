@@ -6,7 +6,7 @@ codeunit 90251 "Return Searched Books"
         SearchTitle: Text;
     begin
         SearchTitle := ConvertStr(Rec, ' ', '+');
-        AATRestHelper.LoadAPIConfig('00000001');
+        AATRestHelper.LoadAPIConfig('T00001');
         AATRestHelper.Initialize('GET', AATRestHelper.GetAPIConfigBaseEndpoint() + '/search.json?q=' + SearchTitle + '&limit=2');
         AATRestHelper.AddBasicAuthHeader();
 
@@ -21,7 +21,7 @@ codeunit 90251 "Return Searched Books"
 
     end;
 
-    local procedure DisplayAPIFailureMessage(var AATRestHelper: Codeunit "AAT REST Helper")
+    procedure DisplayAPIFailureMessage(var AATRestHelper: Codeunit "AAT REST Helper")
     var
         ErrorBreakDownLbl: Label 'Code: %1\Message: %2\Reason: %3', Comment = '%1=Error Code, %2 = Err Message %3 = Err. Reason';
     begin
@@ -41,7 +41,7 @@ codeunit 90251 "Return Searched Books"
         PureBookID: List of [Text];
     begin
         PureBookID := BookID.Split('"');
-        AATRestHelper.LoadAPIConfig('00000001');
+        AATRestHelper.LoadAPIConfig('T00001');
         AATRestHelper.Initialize('GET', AATRestHelper.GetAPIConfigBaseEndpoint() + '/books/' + PureBookID.Get(2));
         AATRestHelper.AddBasicAuthHeader();
         AATRestHelper.AddRequestHeader('accept', 'application/json');
@@ -59,7 +59,7 @@ codeunit 90251 "Return Searched Books"
     var
         AATRestHelper: Codeunit "AAT REST Helper";
     begin
-        AATRestHelper.LoadAPIConfig('00000001');
+        AATRestHelper.LoadAPIConfig('T00001');
         AATRestHelper.Initialize('GET', AATRestHelper.GetAPIConfigBaseEndpoint() + '/authors/' + AuthorKey + '.json');
         AATRestHelper.AddBasicAuthHeader();
         AATRestHelper.AddRequestHeader('accept', 'application/json');
