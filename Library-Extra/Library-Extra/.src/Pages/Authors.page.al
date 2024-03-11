@@ -1,16 +1,17 @@
 page 90250 "Authors"
 {
-    caption = 'Authors';
+    Caption = 'Authors';
     PageType = List;
     ApplicationArea = All;
-    UsageCategory = Lists;
+    UsageCategory = Administration;
+    CardPageId = Author;
     SourceTable = Author;
 
     layout
     {
         area(Content)
         {
-            repeater(AuthorData)
+            repeater("Author Data")
             {
                 field("Author Name"; Rec."Author Name")
                 {
@@ -42,10 +43,18 @@ page 90250 "Authors"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Personal Name field.';
                 }
-                
+                field(Picture; Rec.Picture)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Personal Name field.';
+                }
+                field("Current Age"; Rec."Current Age")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Current Age field.';
+                }
             }
         }
     }
-
 
 }

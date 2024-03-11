@@ -32,12 +32,12 @@ tableextension 90250 "Library Extension" extends Library
         {
             Caption = 'Open Library ID';
         }
-        field(90010; "Book Title"; Text[50])
+        field(90010; "Book Title"; Text[500])
         {
             Caption = 'Title';
             NotBlank = true;
         }
-        field(90020; "Created"; Text[50])
+        field(90020; "Created"; Text[500])
         {
             Caption = 'Created';
             NotBlank = true;
@@ -46,7 +46,7 @@ tableextension 90250 "Library Extension" extends Library
         {
             Caption = 'Description';
         }
-        field(90040; "Search Title"; Text[50])
+        field(90040; "Search Title"; Text[500])
         {
             Caption = 'Search Title';
             NotBlank = true;
@@ -66,11 +66,22 @@ tableextension 90250 "Library Extension" extends Library
         {
             Caption = 'Book Cover';
         }
-        field(90080; "Book Cover URL"; Text[1000])
+        field(90080; "Subject Places"; Text[500])
         {
-            Caption = 'Book Cover URL';
+            Caption = 'Subject Places';
         }
-
+        field(90090; "Subject"; Text[500])
+        {
+            Caption = 'Subject';
+        }
+        field(90100; "Subject People"; Text[500])
+        {
+            Caption = 'Subject People';
+        }
+        field(90110; "Latest Revision"; Text[500])
+        {
+            Caption = 'Latest Revision';
+        }
     }
     procedure GetBookAuthor(BookID: Text[500]; GetSpecificBookData: Text): Text
     var
@@ -146,6 +157,45 @@ tableextension 90250 "Library Extension" extends Library
         end;
     end;
 
+    procedure GetSubjectInformation(GetSpecificBookData: Text; FieldName: Text): Text
+    var
+        JsonObject: JsonObject;
+        JsonObject1: JsonObject;
+        AATJSONHelper: Codeunit "AAT JSON Helper";
+        JsonToken: JsonToken;
+        JsonTokenValue: JsonToken;
+        JsonArray: JsonArray;
+        AllSubjectPlaces: Text;
+    begin
+        AATJSONHelper.InitializeJsonObjectFromText(GetSpecificBookData);
+        JsonObject := AATJSONHelper.GetJsonObject();
+        if AATJSONHelper.GetJsonArray(JsonObject, FieldName, JsonArray) then begin
+            foreach JsonToken in JsonArray do begin
+                AllSubjectPlaces := AllSubjectPlaces + Format(JsonToken) + '\';
+            end;
+            exit(AllSubjectPlaces);
+        end else begin
+            exit('N/A');
+        end;
+    end;
+
+    procedure GetLatestRevision(GetSpecificBookData: Text): Text
+    var
+        JsonObject: JsonObject;
+        JsonObject1: JsonObject;
+        AATJSONHelper: Codeunit "AAT JSON Helper";
+        JsonToken: JsonToken;
+        JsonTokenValue: JsonToken;
+    begin
+        AATJSONHelper.InitializeJsonObjectFromText(GetSpecificBookData);
+        JsonObject := AATJSONHelper.GetJsonObject();
+        if JsonObject.Get('latest_revision', JsonToken) then begin
+            Exit(Format(JsonToken));
+        end else begin
+            exit('N/A');
+        end;
+    end;
+
     procedure GetAuthorDataItem(GetSpecificBookData: Text; AuthorDataItem: Text): Text
     var
         JsonObject: JsonObject;
@@ -163,6 +213,28 @@ tableextension 90250 "Library Extension" extends Library
         end;
     end;
 
+    procedure GetAuthorPhotoURL(GetSpecificBookData: Text): Text
+    var
+        JsonObject: JsonObject;
+        JsonObject1: JsonObject;
+        AATJSONHelper: Codeunit "AAT JSON Helper";
+        JsonToken: JsonToken;
+        JsonTokenValue: JsonToken;
+        JsonArrary: JsonArray;
+        Counter: Integer;
+        ImageURL: Text;
+    begin
+        AATJSONHelper.InitializeJsonObjectFromText(GetSpecificBookData);
+        JsonObject := AATJSONHelper.GetJsonObject();
+        AATJSONHelper.GetJsonArray(JsonObject, 'photos', JsonArrary);
+        foreach JsonToken in JsonArrary do begin
+            Counter := Counter + 1;
+            if Counter = 1 then begin
+                ImageURL := 'https://covers.openlibrary.org/b/id/' + Format(JsonToken) + '.jpg';
+                exit(ImageURL);
+            end;
+        end;
+    end;
 
     procedure RemoveAllQuotes(FinalOutput: Text): Text
     var
@@ -389,7 +461,6 @@ tableextension 90250 "Library Extension" extends Library
         GeneralSetup.Get();
         GeneralSetup.TestField("No. Series");
         NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
-        NewBookTransactionsLog.Validate("Rent ID ", GeneralSetup."No. Series" + NextNum);
         NewBookTransactionsLog.Validate("Book Name", Rec.Title);
         NewBookTransactionsLog.Validate("Book ID", Rec."Book ID");
         NewBookTransactionsLog.Validate("Book Status", CurrentBookStatus);
@@ -495,7 +566,7 @@ tableextension 90250 "Library Extension" extends Library
         end;
     end;
 
-    procedure UpdatePhoto(RequestURL: Text): InStream
+    procedure UpdatePhoto(RequestURL: Text; Type: Text; AuthorReturnData: Text; CurrentAuthor: Record Author)
     var
         AATRestHelper: Codeunit "AAT REST Helper";
         SearchTitle: Text;
@@ -514,9 +585,18 @@ tableextension 90250 "Library Extension" extends Library
         RestTempBlob: Codeunit "Temp Blob";
         ResponseInstream: InStream;
         ResponseImg: InStream;
+        ImageURL: Text;
     begin
         HttpRequestMessage.Method := 'GET';
-        HttpRequestMessage.SetRequestUri(RequestURL);
+        if Type = '1' then begin
+            HttpRequestMessage.SetRequestUri(RequestURL);
+        end;
+        if Type = '2' then begin
+            if AuthorReturnData.Contains('photos') = false then
+                exit;
+            ImageURL := GetAuthorPhotoURL(AuthorReturnData);
+            HttpRequestMessage.SetRequestUri(ImageURL);
+        end;
         HttpRequestMessage.GetHeaders(RequestHeaders);
 
         HttpContent.WriteFrom(RequestBody);
@@ -528,9 +608,14 @@ tableextension 90250 "Library Extension" extends Library
         HttpClient.Send(HttpRequestMessage, HttpResponseMessage);
         RestTempBlob.CreateInStream(ResponseInstream);
         HttpResponseMessage.Content().ReadAs(ResponseImg);
-
-        Rec."Book Cover".ImportStream(ResponseImg, 'Cover');
-        Rec.Modify(true);
+        if Type = '1' then begin
+            Rec."Book Cover".ImportStream(ResponseImg, 'Cover');
+            Rec.Modify(true);
+        end;
+        if Type = '2' then begin
+            CurrentAuthor."Picture".ImportStream(ResponseImg, 'Picture');
+            CurrentAuthor.Modify(true);
+        end;
     end;
 
     procedure GetRecordOnce()

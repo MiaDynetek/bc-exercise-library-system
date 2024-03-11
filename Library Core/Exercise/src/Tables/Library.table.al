@@ -12,12 +12,12 @@ table 90103 Library
 
             // TableRelation = "No. Series";
         }
-        field(20; "Title"; Text[50])
+        field(20; "Title"; Text[500])
         {
             Caption = '';
             NotBlank = true;
         }
-        field(30; "Author"; Text[50])
+        field(30; "Author"; Text[500])
         {
             Caption = '';
             NotBlank = true;
@@ -34,17 +34,17 @@ table 90103 Library
             Caption = '';
             NotBlank = true;
         }
-        field(50; "Genre"; Text[50])
+        field(50; "Genre"; Text[500])
         {
             Caption = '';
             NotBlank = true;
         }
-        field(60; "Publisher"; Text[50])
+        field(60; "Publisher"; Text[500])
         {
             Caption = '';
             NotBlank = true;
         }
-        field(70; "Book Price"; Text[50])
+        field(70; "Book Price"; Text[500])
         {
             Caption = '';
             NotBlank = true;
@@ -59,12 +59,12 @@ table 90103 Library
             Caption = '';
             NotBlank = true;
         }
-        field(150; "Prequel"; Text[50])
+        field(150; "Prequel"; Text[500])
         {
             Caption = '';
             NotBlank = true;
         }
-        field(160; "Sequel"; Text[50])
+        field(160; "Sequel"; Text[500])
         {
             Caption = '';
             NotBlank = true;

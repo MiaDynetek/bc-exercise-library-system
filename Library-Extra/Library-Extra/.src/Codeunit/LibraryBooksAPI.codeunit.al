@@ -17,6 +17,9 @@ codeunit 90250 "Library Books API"
         Author: Record Author;
         Author1: Record Author;
         Counter: Integer;
+        ImageInStream: InStream;
+        CalculateCurrentAge: Integer;
+        CurrDate: Date;
     begin
         // if LibraryBooksTemp.FindSet() then
         //     repeat
@@ -44,6 +47,10 @@ codeunit 90250 "Library Books API"
                         AuthBio := Library.GetAuthorDataItem(AuthorData, 'bio');
                         AuthPersonalName := Library.GetAuthorDataItem(AuthorData, 'personal_name');
                         Author1.Init();
+                        if Evaluate(CurrDate, ConvertMonthToInt(AuthBirthDate)) then begin
+                            CalculateCurrentAge := Abs(WorkDate() - CurrDate);
+                            Author1.Validate("Current Age", Format(CalculateCurrentAge));
+                        end;
                         Author1.Validate("Open Library ID", Library.RemoveAllQuotes(AuthorKey));
                         Author1.Validate("Author Name", Library.RemoveAllQuotes(AuthName));
                         Author1.Validate("Birth Date", Library.RemoveAllQuotes(AuthBirthDate));
@@ -51,6 +58,7 @@ codeunit 90250 "Library Books API"
                         Author1.Validate(Bio, Library.RemoveAllQuotes(AuthBio));
                         Author1.Validate("Personal Name", Library.RemoveAllQuotes(AuthPersonalName));
                         Author1.Insert();
+                        Library.UpdatePhoto('', '2', AuthorData, Author1);
                         if Counter = 1 then begin
                             Library1."Book Author" += Author1."Author Name";
                         end else begin
@@ -63,6 +71,52 @@ codeunit 90250 "Library Books API"
         end;
 
         //until LibraryBooksTemp.Next() = 0;
+    end;
+    local procedure ConvertMonthToInt(Date: Text): Text
+    var
+        DateSections: List of [Text];
+        Month: Text;
+    begin
+        if Date.Contains(' ') = false then
+        exit;
+        DateSections := Date.Split(' ');
+        if DateSections.Get(2).Contains('Jan') then begin
+            Month := '01';
+        end;
+        if DateSections.Get(2).Contains('Feb') then begin
+            Month := '02';
+        end;
+        if DateSections.Get(2).Contains('Mar') then begin
+            Month := '03';
+        end;
+        if DateSections.Get(2).Contains('Apr') then begin
+            Month := '04';
+        end;
+        if DateSections.Get(2).Contains('May') then begin
+            Month := '05';
+        end;
+        if DateSections.Get(2).Contains('Jun') then begin
+            Month := '06';
+        end;
+        if DateSections.Get(2).Contains('Jul') then begin
+            Month := '07';
+        end;
+        if DateSections.Get(2).Contains('Aug') then begin
+            Month := '08';
+        end;
+        if DateSections.Get(2).Contains('Sep') then begin
+            Month := '09';
+        end;
+        if DateSections.Get(2).Contains('Oct') then begin
+            Month := '10';
+        end;
+        if DateSections.Get(2).Contains('Nov') then begin
+            Month := '11';
+        end;
+        if DateSections.Get(2).Contains('Dec') then begin
+            Month := '12';
+        end;
+        exit(DateSections.Get(1) + Month + DateSections.Get(3));
     end;
 
 }

@@ -113,6 +113,6 @@ tableextension 90251 "Book Transaction Extension" extends BookTransactions
         GeneralSetup.Get();
         GeneralSetup.TestField("No. Series");
         NextNum := NoSeriesMgt.GetNextNo(GeneralSetup."No. Series", WorkDate(), true);
-        Rec."Rent ID " := GeneralSetup."No. Series" + NextNum;
+       // Rec."Rent ID " := GeneralSetup."No. Series" + NextNum;
     end;
 }

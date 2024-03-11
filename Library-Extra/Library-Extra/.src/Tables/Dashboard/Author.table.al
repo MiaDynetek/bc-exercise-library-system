@@ -1,9 +1,9 @@
 table 90250 "Author"
 {
     Caption = 'Author';
-    // DataCaptionFields = "Author Name", "Auther ID";
     LookupPageId = Authors;
     DrillDownPageId = Authors;
+    DataClassification = ToBeClassified;
 
     fields
     {
@@ -48,6 +48,14 @@ table 90250 "Author"
             Caption = 'Top Work';
             DataClassification = ToBeClassified;
         }
+        field(90; "Picture"; MediaSet)
+        {
+            Caption = 'Picture';
+        }
+        field(100; "Current Age"; Text[500])
+        {
+            Caption = 'Current Age';
+        }
     }
 
     keys
@@ -55,6 +63,12 @@ table 90250 "Author"
         key(PK; "Author Name")
         {
             Clustered = true;
+        }
+    }
+    fieldgroups
+    {
+        fieldgroup(Brick; "Author Name", "Birth Date", "Picture")
+        {
         }
     }
 

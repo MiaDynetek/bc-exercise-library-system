@@ -45,6 +45,26 @@ pageextension 90250 BookSpecificationExt extends BookSpecifications
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Book Cover field.';
             }
+            field("Subject Places"; Rec."Subject Places")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Subject Places field.';
+            }
+            field("Subject"; Rec."Subject")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Subject field.';
+            }
+            field("Subject People"; Rec."Subject People")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Subject People field.';
+            }
+            field("Latest Revision"; Rec."Latest Revision")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Latest Revision field.';
+            }
         }
 
     }

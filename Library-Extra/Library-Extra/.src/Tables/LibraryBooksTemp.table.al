@@ -1,7 +1,6 @@
 table 90255 "Library Books Temp"
 {
     DataClassification = ToBeClassified;
-    // TableType = Temporary;
     fields
     {
         field(90000; "Open Library ID"; Text[1000])
