@@ -83,6 +83,14 @@ tableextension 90250 "Library Extension" extends Library
             Caption = 'Latest Revision';
         }
     }
+    fieldgroups
+    {
+        addlast(DropDown; Title, "Book Cover")
+        {
+
+        }
+    }
+    
     procedure GetBookAuthor(BookID: Text[500]; GetSpecificBookData: Text): Text
     var
         JsonObject: JsonObject;
@@ -634,6 +642,7 @@ tableextension 90250 "Library Extension" extends Library
             Insert(true);
         end;
     end;
+    
 
     var
         RecordHasBeenRead: Boolean;

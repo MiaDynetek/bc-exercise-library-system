@@ -15,7 +15,7 @@
       "id":  "2bf1e32f-fc3e-4b0a-a288-678811099a7b",
       "name":  "Library Core",
       "publisher":  "Cronus International Ltd",
-      "version":  "1.0.20240229.1530"
+      "version":  "1.0.20240229.1535"
     },
     {
       "id": "a633d3fb-cca3-4ad2-ace0-77a00a664032",
@@ -40,5 +40,6 @@
     "allowDebugging": true,
     "allowDownloadingSource": false,
     "includeSourceInSymbolFile": false
-  }
+  },
+  "runtime": "12.1"
 }

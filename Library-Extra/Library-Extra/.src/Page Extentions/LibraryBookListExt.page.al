@@ -25,6 +25,11 @@ pageextension 90251 "Library Book List Extention" extends LibraryBookList
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Date Added field.';
             }
+            field("Book Cover"; Rec."Book Cover")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Book Cover field.';
+            } 
 
         }
     }

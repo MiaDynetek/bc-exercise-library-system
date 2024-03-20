@@ -33,6 +33,7 @@ codeunit 90250 "Library Books API"
             Library1.Validate(Description, LibraryBooksTemp.Description);
             Library1.Validate("Book Status", BookStatus::Available);
             Library1.Validate("Date Added", WorkDate());
+            Library1.Validate("Book Cover", LibraryBooksTemp."Book Cover");
 
             Authors := LibraryBooksTemp."Author Open Library ID".Split(',');
             foreach AuthorKey in Authors do begin
@@ -41,7 +42,7 @@ codeunit 90250 "Library Books API"
                     AuthorData := ReturnSearchedBooks.GetAuthorDetails(Library.RemoveAllQuotes(AuthorKey));
                     AuthName := Library.GetAuthorDataItem(AuthorData, 'name');
                     Author.SetFilter("Author Name", '=%1', AuthName);
-                    if Author.FindFirst() = false then begin
+                    if Author.FindFirst() = true then begin
                         AuthBirthDate := Library.GetAuthorDataItem(AuthorData, 'birth_date');
                         AuthDeathDate := Library.GetAuthorDataItem(AuthorData, 'death_date');
                         AuthBio := Library.GetAuthorDataItem(AuthorData, 'bio');
@@ -65,6 +66,7 @@ codeunit 90250 "Library Books API"
                             Library1."Book Author" += '|' + Author1."Author Name";
                         end;
                     end;
+
                 end;
             end;
             Library1.Insert();

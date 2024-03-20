@@ -114,6 +114,7 @@ table 90103 Library
         {
             Caption = '';
         }
+        
     }
     keys
     {
@@ -126,7 +127,12 @@ table 90103 Library
         //    Unique = true; 
         // }
     }
-
+    fieldgroups
+    {
+        fieldgroup(Book; "Title", "Book ID", "Genre")
+        {
+        }
+    }
 
     procedure OpenLibraryPage()
     var
