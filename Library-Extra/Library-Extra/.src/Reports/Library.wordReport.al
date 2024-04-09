@@ -21,9 +21,6 @@ report 90250 "Library Books"
             column(BookStatus_DataItemName; "Book Status")
             {
             }
-            column(Genre_DataItemName; Genre)
-            {
-            }
             column(Title_DataItemName; Title)
             {
             }

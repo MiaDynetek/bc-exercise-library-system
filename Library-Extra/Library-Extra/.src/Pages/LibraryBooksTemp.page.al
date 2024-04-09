@@ -79,6 +79,7 @@ page 90257 "Library Books Temp"
         area(Processing)
         {
 
+            
             action("Find Books")
             {
                 ApplicationArea = All;
@@ -125,6 +126,7 @@ page 90257 "Library Books Temp"
                             BookID := DelChr(Format(JsonTokenID), '=', '/works/');
                             if Rec."Open Library ID".Contains(BookID) = false then begin
                                 SpecificBookData := ReturnSearchedBooks.GetSpecificBookData(BookID);
+                               // Message(SpecificBookData);
                                 Description := Rec.GetBookDescription(BookID, SpecificBookData);
                                 Created := Rec.GetBookCreated(BookID, SpecificBookData);
                                 Title := Rec.GetBookTitle(BookID, SpecificBookData);

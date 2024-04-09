@@ -43,13 +43,13 @@ page 90254 AddBookSequel
                     ToolTip = 'Specifies the value of the Series Name field.';
 
                 }
-                field("Genre"; Rec."Genre")
+                field("Book Genre"; Rec."Book Genre")
                 {
                     ApplicationArea = All;
                     trigger OnValidate()
                     begin
 
-                        if Rec."Genre" = '' then begin
+                        if Rec."Book Genre" = '' then begin
                             Message('Please enter the book Genre.');
                         end;
 

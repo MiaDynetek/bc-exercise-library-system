@@ -82,6 +82,11 @@ tableextension 90250 "Library Extension" extends Library
         {
             Caption = 'Latest Revision';
         }
+        field(90120; "Book Genre"; Text[500])
+        {
+            Caption = 'Latest Revision';
+            TableRelation = Genre."Genre Name";
+        }
     }
     fieldgroups
     {
@@ -90,7 +95,7 @@ tableextension 90250 "Library Extension" extends Library
 
         }
     }
-    
+
     procedure GetBookAuthor(BookID: Text[500]; GetSpecificBookData: Text): Text
     var
         JsonObject: JsonObject;
@@ -259,8 +264,7 @@ tableextension 90250 "Library Extension" extends Library
                 Exit(PureOutput);
             end;
         end else begin
-            PureOutput := Created;
-            Exit(PureOutput);
+            Exit(FinalOutput);
         end;
     end;
 
@@ -285,13 +289,13 @@ tableextension 90250 "Library Extension" extends Library
         NewAddBookSequelPage: Page AddBookSequel;
     begin
         NewLibrary.Init();
-        // NewLibrary.Validate("Book ID", NextNumberSeries());
+        NewLibrary.Validate("Book ID", NextNumberSeries());
         NewLibrary.Validate("Book Author", Rec."Book Author");
         NewLibrary.Validate(Series, Rec.Series);
-        NewLibrary.Validate(Genre, Rec.Genre);
+        NewLibrary.Validate("Book Genre", Rec."Book Genre");
         NewLibrary.Validate(Publisher, Rec.Publisher);
         NewLibrary.Validate(Prequel, Rec.Title);
-        //   NewLibrary.Validate("Prequel ID", Rec."Book ID");
+        NewLibrary.Validate("Prequel ID", Rec."Book ID");
         NewLibrary.Validate("Edit Sequel", true);
         NewLibrary.Validate("Book Status", enum::BookStatus::"Pending Grading");
         NewLibrary.Validate("Display Message", true);
@@ -564,11 +568,11 @@ tableextension 90250 "Library Extension" extends Library
         Genre: Record Genre;
         Genre1: Record Genre;
     begin
-        if Rec."Genre" <> '' then begin
-            Genre.SetRange("Genre Name", Rec."Genre");
+        if Rec."Book Genre" <> '' then begin
+            Genre.SetRange("Genre Name", Rec."Book Genre");
             if not Genre.FindLast() then begin
                 Genre1.Init();
-                Genre1."Genre Name" := Rec."Genre";
+                Genre1."Genre Name" := Rec."Book Genre";
                 Genre1.Insert();
             end;
         end;
@@ -642,7 +646,7 @@ tableextension 90250 "Library Extension" extends Library
             Insert(true);
         end;
     end;
-    
+
 
     var
         RecordHasBeenRead: Boolean;

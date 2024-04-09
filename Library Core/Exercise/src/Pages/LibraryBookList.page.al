@@ -23,11 +23,6 @@ page 90103 LibraryBookList
                 {
                     ToolTip = 'Specifies the value of the Title field.';
                 }
-                
-                field(Genre; Rec.Genre)
-                {
-                    ToolTip = 'Specifies the value of the Genre field.';
-                }
                 field("Publication Date"; Rec."Publication Date")
                 {
                     ToolTip = 'Specifies the value of the Publication Date field.';

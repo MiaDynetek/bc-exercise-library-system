@@ -38,6 +38,7 @@ table 90103 Library
         {
             Caption = '';
             NotBlank = true;
+            ObsoleteState = Removed;
         }
         field(60; "Publisher"; Text[500])
         {
@@ -129,7 +130,7 @@ table 90103 Library
     }
     fieldgroups
     {
-        fieldgroup(Book; "Title", "Book ID", "Genre")
+        fieldgroup(Book; "Title", "Book ID")
         {
         }
     }

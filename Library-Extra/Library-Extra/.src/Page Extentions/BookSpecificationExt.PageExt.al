@@ -65,6 +65,12 @@ pageextension 90250 BookSpecificationExt extends BookSpecifications
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Latest Revision field.';
             }
+            field("Book Genre"; Rec."Book Genre")
+            {
+                ApplicationArea = All;
+                Caption = 'Book Genre';
+                ToolTip = 'Specifies the value of the Book Genre field.';
+            }
         }
 
     }

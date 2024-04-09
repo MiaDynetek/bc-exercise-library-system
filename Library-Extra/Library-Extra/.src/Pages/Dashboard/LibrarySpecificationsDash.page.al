@@ -14,7 +14,10 @@ page 90252 "Library Specifications Dash"
         {
             group("Library Filters")
             {
-
+                field("Test Data"; SomeText)
+                {
+                    ApplicationArea = All;
+                }
                 field("Book Author"; Rec."Book Author")
                 {
                     Caption = 'Book Author';
@@ -23,8 +26,7 @@ page 90252 "Library Specifications Dash"
                     ToolTip = 'Filters the list of books by author when selected.';
                     trigger OnValidate();
                     begin
-                        if "Single Filter Mode" = true then
-                        begin
+                        if "Single Filter Mode" = true then begin
                             Rec.Reset();
                             Rec."Book Genre" := '';
                             "Date" := 0D;
@@ -41,8 +43,7 @@ page 90252 "Library Specifications Dash"
                     ToolTip = 'Filters the list of books by Genre when selected.';
                     trigger OnValidate();
                     begin
-                        if "Single Filter Mode" = true then
-                        begin
+                        if "Single Filter Mode" = true then begin
                             Rec.Reset();
                             Rec."Book Author" := '';
                             "Date" := 0D;
@@ -58,8 +59,7 @@ page 90252 "Library Specifications Dash"
                     ToolTip = 'Filters the list of books to display books added before the selected date.';
                     trigger OnValidate();
                     begin
-                        if "Single Filter Mode" = true then
-                        begin
+                        if "Single Filter Mode" = true then begin
                             Rec.Reset();
                             Rec."Book Author" := '';
                             Rec."Book Genre" := '';
@@ -75,14 +75,13 @@ page 90252 "Library Specifications Dash"
                     ToolTip = 'Clears all previous filters and only keeps present filters.';
                     trigger OnValidate();
                     begin
-                        if "Single Filter Mode" = true then
-                        begin
+                        if "Single Filter Mode" = true then begin
                             Rec.Reset();
                             Rec."Book Genre" := '';
                             Rec."Book Author" := '';
                             "Date" := 0D;
                             CurrPage.Update();
-                        end; 
+                        end;
                     end;
                 }
             }
@@ -135,14 +134,35 @@ page 90252 "Library Specifications Dash"
                     "Date" := 0D;
                 end;
             }
-
+            action("Test Regex")
+            {
+                ApplicationArea = All;
+                Image = Action;
+                ToolTip = 'Books with the title entered will be inserted into the table.';
+                trigger OnAction()
+                var
+                    Library: Record Library;
+                    Counter: Integer;
+                begin
+                    Message(Format(Library.Count()));
+                    if Library.FindSet() Then
+                        repeat
+                            Counter := Counter + 1;
+                            if Counter = Library.Count() then begin
+                                Message(Format(Counter));
+                            end;
+                        until Library.Next() = 0;
+                end;
+            }
         }
     }
     trigger OnOpenPage()
     begin
         Rec.InsertIfNotExists();
     end;
+
     var
         Date: Date;
         "Single Filter Mode": Boolean;
+        SomeText: Text[500];
 }

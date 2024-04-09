@@ -38,18 +38,6 @@ page 90101 BookSpecifications
                     ToolTip = 'Specifies the value of the Series Name field.';
 
                 }
-                field("Genre"; Rec."Genre")
-                {
-                    ApplicationArea = All;
-                    trigger OnValidate()
-                    var
-                        myInt: Integer;
-                    begin
-                        if Rec."Genre" = '' then begin
-                            Message('Please enter the book Genre.');
-                        end;
-                    end;
-                }
                 field("Publisher"; Rec."Publisher")
                 {
                     ApplicationArea = All;

@@ -21,7 +21,7 @@ table 90252 "Library Specification"
         {
             CalcFormula = count(Library where("Book Grade" = Const(A),
                                 "Book Author" = field("Author Filter"),
-                                Genre = field("Genre Filter"),
+                                "Book Genre" = field("Genre Filter"),
                                 "Date Added" = field("Date Filter")));
             Caption = 'Total new books';
             Editable = false;
@@ -31,7 +31,7 @@ table 90252 "Library Specification"
         {
             CalcFormula = count(Library where("Book Grade" = Const(D),
                                 "Book Author" = field("Author Filter"),
-                                Genre = field("Genre Filter"),
+                                "Book Genre" = field("Genre Filter"),
                                 "Date Added" = field("Date Filter")));
             Caption = 'Total damaged books';
             Editable = false;
@@ -41,7 +41,7 @@ table 90252 "Library Specification"
         {
             CalcFormula = count(Library where("Book Status" = Const(Rented),
                                 "Book Author" = field("Author Filter"),
-                                Genre = field("Genre Filter"),
+                                "Book Genre" = field("Genre Filter"),
                                 "Date Added" = field("Date Filter")));
             Caption = 'Total rented books';
             Editable = false;
@@ -51,7 +51,7 @@ table 90252 "Library Specification"
         {
             CalcFormula = count(Library where("Book Status" = Const(Available),
                                 "Book Author" = field("Author Filter"),
-                                Genre = field("Genre Filter"),
+                                "Book Genre" = field("Genre Filter"),
                                 "Date Added" = field("Date Filter")));
             Caption = 'Total available books';
             Editable = false;

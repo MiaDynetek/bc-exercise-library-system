@@ -34,6 +34,9 @@ codeunit 90250 "Library Books API"
             Library1.Validate("Book Status", BookStatus::Available);
             Library1.Validate("Date Added", WorkDate());
             Library1.Validate("Book Cover", LibraryBooksTemp."Book Cover");
+            Library1.Validate("Subject People", LibraryBooksTemp."Subject People");
+            Library1.Validate("Subject Places", LibraryBooksTemp."Subject Places");
+            Library1.Validate(Subject, LibraryBooksTemp.Subject);
 
             Authors := LibraryBooksTemp."Author Open Library ID".Split(',');
             foreach AuthorKey in Authors do begin
@@ -65,6 +68,12 @@ codeunit 90250 "Library Books API"
                         end else begin
                             Library1."Book Author" += '|' + Author1."Author Name";
                         end;
+                    end else begin
+                        if Counter = 1 then begin
+                            Library1."Book Author" += AuthName;
+                        end else begin
+                            Library1."Book Author" += '|' + AuthName;
+                        end;
                     end;
 
                 end;
@@ -74,13 +83,14 @@ codeunit 90250 "Library Books API"
 
         //until LibraryBooksTemp.Next() = 0;
     end;
+
     local procedure ConvertMonthToInt(Date: Text): Text
     var
         DateSections: List of [Text];
         Month: Text;
     begin
         if Date.Contains(' ') = false then
-        exit;
+            exit;
         DateSections := Date.Split(' ');
         if DateSections.Get(2).Contains('Jan') then begin
             Month := '01';
